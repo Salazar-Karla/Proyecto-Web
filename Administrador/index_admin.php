@@ -1,3 +1,19 @@
+<?php
+session_start();
+
+$inactividad_maxima = 300; // 5 minutos (300 segundos)
+
+if (isset($_SESSION['ultima_actividad']) && (time() - $_SESSION['ultima_actividad']) > $inactividad_maxima) {
+    session_unset();
+    session_destroy();
+    header("Location: ../cerrar_sesion.php?expirada=1");
+    exit();
+}
+
+$_SESSION['ultima_actividad'] = time(); // Actualiza la actividad
+
+?>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -44,6 +60,7 @@
                         <a href="#">Búsqueda</a>
                     </div>
                 </div>
+                <a href="../cerrar_sesion.php" class="btn-cerrar-sesion"> Cerrar sesión</a>
             </div>
         </nav>
     </header>
