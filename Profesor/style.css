@@ -1,0 +1,321 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+body {
+    background-color: #e3f2fd;
+}
+
+header {
+    background-color: #29b6f6;
+    padding: 20px;
+    color: white;
+}
+
+.logo-container {
+    display: flex;
+    align-items: center;
+}
+
+.logo {
+    width: 60px;
+    height: 60px;
+    margin-right: 15px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+
+h1 {
+    font-size: 1.8em;
+}
+
+
+/* NAV estilo tipo botones */
+nav {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    background-color: #01579b;
+    padding: 10px 30px;
+    min-height: 50px;
+    gap: 30px;
+}
+.nav-center a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 1.1em;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 1.1em;
+    background-color: transparent;
+    padding: 8px 12px;
+    border-radius: 6px;
+    transition: background 0.3s;
+    
+}
+
+nav a:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Imagen del tiburon arriba a la derecha */
+.tiburon-header {
+    width: 300px;
+    height: auto;
+    position: absolute;
+    top: -80px;
+    right: 10px;
+}
+
+.img-modal {
+    display: block;
+    margin: 20px auto 0;
+    width: 280px; /* Ajusta este tamaño a tu gusto */
+    height: auto;
+}
+
+
+/* Modal general */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 999;
+    padding-top: 80px;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.5);
+}
+
+.modal-contenido {
+    background-color: #fff;
+    margin: auto;
+    padding: 30px;
+    border-radius: 10px;
+    width: 40%;
+}
+
+.modal-contenido h3 {
+    text-align: center;
+    color: #01579b;
+    margin-bottom: 20px;
+}
+
+.modal-contenido p {
+    text-align: left;
+    margin: 8px 0;
+    color: #333;
+    font-size: 1em;
+}
+
+
+.cerrar {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.cerrar:hover {
+    color: #000;
+}
+
+
+main {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 40px;
+    gap: 40px;
+}
+
+
+.login-container {
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.15);
+    width: 320px; /* fijo */
+    flex-shrink: 0; /* no se expande ni adapta */
+}
+
+
+.login-container h2 {
+    margin-bottom: 20px;
+    color: #01579b;
+}
+
+.login-container label {
+    display: block;
+    margin-top: 10px;
+    color: #333;
+}
+
+.login-container input,
+.login-container select {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+}
+
+.login-container button {
+    margin-top: 20px;
+    width: 100%;
+    padding: 10px;
+    background-color: #29b6f6;
+    color: white;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.login-container button:hover {
+    background-color: #0288d1;
+}
+
+.extra-links {
+    margin-top: 15px;
+    text-align: center;
+}
+
+.extra-links a {
+    color: #0288d1;
+    text-decoration: none;
+    font-size: 0.9em;
+}
+
+footer {
+    margin-top: 50px;
+    background-color: #000;
+    color: #fff;
+    text-align: center;
+    padding: 10px;
+}
+
+.login-image {
+    text-align: center;
+    margin-bottom: 20px;
+    position: relative;
+}
+
+.login-image img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 5px solid #0288d1; /* borde azul */
+}
+
+/* Línea centrada */
+.login-image::after {
+    content: "";
+    display: block;
+    margin: 15px auto 0;
+    width: 90%;
+    height: 4px;
+    background-color: #0288d1;
+    border-radius: 5px;
+}
+
+.bienvenida {
+    flex-grow: 1;
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 0 12px rgba(0, 0, 0, 0.1);
+    max-width: 65%;
+    min-width: 400px;
+}
+.bienvenida img {
+    width: 100%;
+    max-height: 300px;
+    object-fit: cover;
+    border-radius: 12px;
+}
+
+.bienvenida-img-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.bienvenida-img-container img {
+    max-width: 80%;
+    max-height: 550px;
+    border-radius: 12px;
+    object-fit: cover;
+}
+
+.bienvenida h2 {
+    color: #0288d1;
+    font-size: 1.8em;
+    margin-bottom: 15px;
+}
+
+.bienvenida p {
+    font-size: 1em;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+/* Modal contacto */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 999;
+    padding-top: 80px;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.5);
+}
+
+.modal-contenido {
+    background-color: #fff;
+    margin: auto;
+    padding: 30px;
+    border-radius: 10px;
+    width: 40%;
+    text-align: center;
+}
+
+.modal-contenido h3 {
+    color: #01579b;
+    margin-bottom: 15px;
+}
+
+.cerrar {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.cerrar:hover {
+    color: #000;
+}
+
+.img-contacto {
+    margin-top: 20px;
+    width: 100px;
+    height: auto;
+}
