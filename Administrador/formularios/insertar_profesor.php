@@ -10,7 +10,7 @@ $ap_Mat = $_POST['ap_Mat'];
 $correo = $_POST['correo'];
 $contrasena = $_POST['contrasena'];
 $numero = $_POST['numero'];
-$id_grupo = intval($_POST['Grupo']); 
+$telefono = $_POST['telefono']; 
 
 // Insertar en usuario
 $insert_usuario = $conn->prepare("INSERT INTO usuario (nombre, ap_Pat, ap_Mat, correo, contrasena, numero) VALUES (?, ?, ?, ?, ?, ?)");
@@ -27,16 +27,16 @@ if (!$insert_usuario->execute()) {
 
 $id_usuario = $conn->insert_id;
 
-// Insertar en alumno
-$insert_alumno = $conn->prepare("INSERT INTO alumno (id_grupo, id_usuario) VALUES (?, ?)");
-if (!$insert_alumno) {
+// Insertar en profesor
+$insert_profesor = $conn->prepare("INSERT INTO profesor (id_usuario, telefono) VALUES (?, ?)");
+if (!$insert_profesor) {
     echo json_encode(['success' => false, 'message' => 'Error en prepare alumno: ' . $conn->error]);
     exit;
 }
 
-$insert_alumno->bind_param("ii", $id_grupo, $id_usuario);
-if (!$insert_alumno->execute()) {
-    echo json_encode(['success' => false, 'message' => 'Error al ejecutar alumno: ' . $insert_alumno->error]);
+$insert_profesor->bind_param("ii", $id_grupo, $telefono);
+if (!$insert_profesor->execute()) {
+    echo json_encode(['success' => false, 'message' => 'Error al ejecutar profesor: ' . $insert_profesor->error]);
     exit;
 }
 

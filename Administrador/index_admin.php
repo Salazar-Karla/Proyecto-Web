@@ -93,12 +93,64 @@
             });
         cargarGrupos();
     }
+function mostrarAgregarAlumno() {
+    fetch('formularios/agregar_alumno.php')
+        .then(response => response.text())
+        .then(html => {
+            document.getElementById('contenido-dinamico').innerHTML = html;
+            cargarGrupos(); // Cargar los grupos al select
+
+            // 💡 Aquí mismo registramos el evento del formulario
+            const form = document.getElementById('formAlumno');
+            form.addEventListener('submit', function (event) {
+                event.preventDefault();
+
+                const formData = new FormData(form);
+
+                fetch('formularios/insertar_alumno.php', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.success) {
+                        alert("Alumno registrado exitosamente");
+                        form.reset();
+                    } else {
+                        alert("Error: " + data.message);
+                    }
+                })
+                .catch(err => console.error("Error en el registro:", err));
+            });
+        });
+}
 
     function mostrarAgregarProfesor() {
         fetch('formularios/agregar_profesor.php')
             .then(response => response.text())
             .then(html => {
                 document.getElementById('contenido-dinamico').innerHTML = html;
+                const form = document.getElementById('formAlumno');
+                form.addEventListener('submit', function (event) {
+                    event.preventDefault();
+
+                    const formData = new FormData(form);
+
+                    fetch('formularios/insertar_profesor.php', {
+                        method: 'POST',
+                        body: formData
+                    })
+                    .then(res => res.json())
+                    .then(data => {
+                        if (data.success) {
+                            alert("Profesor registrado exitosamente");
+                            form.reset();
+                        } else {
+                            alert("Error: " + data.message);
+                        }
+                    })
+                    .catch(err => console.error("Error en el registro:", err));
+                });
             });
     }
 
@@ -166,27 +218,6 @@
         if (event.target === modalContacto) modalContacto.style.display = "none";
         if (event.target === modalAyuda) modalAyuda.style.display = "none";
     }
-    // Enviar formulario
-document.getElementById('formAlumno').addEventListener('submit', function (event) {
-    event.preventDefault(); // Evita recargar
-
-    const formData = new FormData(event.target);
-
-    fetch('formularios/insertar_alumno.php', {
-        method: 'POST',
-        body: formData
-    })
-    .then(res => res.json())
-    .then(data => {
-        if (data.success) {
-            alert("Alumno registrado exitosamente");
-            event.target.reset();
-        } else {
-            alert("Error: " + data.message);
-        }
-    })
-    .catch(err => console.error("Error en el registro:", err));
-});
     </script>
 
 </body>

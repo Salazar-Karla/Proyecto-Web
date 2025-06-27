@@ -11,7 +11,6 @@ if ($conn->connect_error) {
     die("Error de conexión: " . $conn->connect_error);
 }
 
-// Establece codificación de caracteres para que se vean bien los acentos
 $conn->set_charset("utf8mb4");
 ?>
 

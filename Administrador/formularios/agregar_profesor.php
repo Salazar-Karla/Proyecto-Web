@@ -1,8 +1,8 @@
-<h2 class="titulo-seccion">Nuevo Alumno</h2>
+<h2 class="titulo-seccion">Nuevo Profesor</h2>
 <div>
 	<form id="formAlumno">
 		<fieldset>
-			<legend>Datos del alumno</legend>
+			<legend>Datos del Profesor</legend>
 
 			<label for="Nombre">Nombre</label>
 			<input type="text" name="Nombre" required>
@@ -24,11 +24,9 @@
 			<label for="numero">Número de teléfono</label>
 			<input type="text" name="numero" pattern="[0-9]+" required>
 			<br>
-
-			<label for="Grupo">Grupo</label>
-			<select name="Grupo" id="Grupo" required>
-				<option value="">Seleccione un grupo</option>
-			</select>
+			<label for="telefono">Número de teléfono</label>
+			<input type="text" name="telefono" pattern="[0-9]+" required>
+			
 			<br><br>
 
 			<button type="submit" style="
@@ -38,7 +36,7 @@
 				border: none;
 				border-radius: 5px;
 				cursor: pointer;
-			">Registrar Alumno</button>
+			">Registrar Profesor</button>
 
 		</fieldset>
 	</form>
