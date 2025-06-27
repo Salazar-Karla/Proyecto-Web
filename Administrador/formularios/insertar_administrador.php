@@ -27,16 +27,16 @@ if (!$insert_usuario->execute()) {
 
 $id_usuario = $conn->insert_id;
 
-// Insertar en profesor
-$insert_profesor = $conn->prepare("INSERT INTO profesor (id_usuario, telefono) VALUES (?, ?)");
-if (!$insert_profesor) {
+// Insertar en administrador
+$insert_administrador = $conn->prepare("INSERT INTO administrador (id_usuario, telefono) VALUES (?, ?)");
+if (!$insert_administrador) {
     echo json_encode(['success' => false, 'message' => 'Error en prepare alumno: ' . $conn->error]);
     exit;
 }
 
-$insert_profesor->bind_param("ii", $id_usuario, $telefono);
-if (!$insert_profesor->execute()) {
-    echo json_encode(['success' => false, 'message' => 'Error al ejecutar profesor: ' . $insert_profesor->error]);
+$insert_administrador->bind_param("ii", $id_usuario, $telefono);
+if (!$insert_administrador->execute()) {
+    echo json_encode(['success' => false, 'message' => 'Error al ejecutar administrador: ' . $insert_administrador->error]);
     exit;
 }
 

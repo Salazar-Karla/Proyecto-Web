@@ -76,7 +76,39 @@
             });
         })
         .catch(err => console.error("Error al cargar grupos:", err));
-}
+    }
+    function cargarBloques() {
+    fetch('formularios/obtener_bloque.php')
+        .then(response => response.json())
+        .then(data => {
+            const select = document.getElementById('Bloques');
+            if (!select) return; // Evita error si no se encuentra el select
+            select.innerHTML = '<option value="">Seleccione al menos un bloque</option>';
+            data.forEach(bloque => {
+                const option = document.createElement('option');
+                option.value = bloque.id_bloque;
+                option.textContent = bloque.nombre_bloque;
+                select.appendChild(option);
+            });
+        })
+        .catch(err => console.error("Error al cargar bloques:", err));
+    }
+    function cargarProfesores() {
+    fetch('formularios/obtener_profesores.php')
+        .then(response => response.json())
+        .then(data => {
+            const select = document.getElementById('Profesor');
+            if (!select) return; // Evita error si no se encuentra el select
+            select.innerHTML = '<option value="">Seleccione un profesor</option>';
+            data.forEach(profesor => {
+                const option = document.createElement('option');
+                option.value = profesor.id_profesor;
+                option.textContent = profesor.nombre+" "+profesor.ap_Pat+" "+profesor.ap_Mat;
+                select.appendChild(option);
+            });
+        })
+        .catch(err => console.error("Error al cargar grupos:", err));
+    }
     function mostrarAgregarUsuario() {
         fetch('agregar_usuario.php')
             .then(response => response.text())
@@ -155,10 +187,31 @@ function mostrarAgregarAlumno() {
     }
 
     function mostrarAgregarAdministrador() {
-        fetch('formularios/agregar_admin.php')
+        fetch('formularios/agregar_administrador.php')
             .then(response => response.text())
             .then(html => {
                 document.getElementById('contenido-dinamico').innerHTML = html;
+                const form = document.getElementById('formAlumno');
+                form.addEventListener('submit', function (event) {
+                    event.preventDefault();
+
+                    const formData = new FormData(form);
+
+                    fetch('formularios/insertar_administrador.php', {
+                        method: 'POST',
+                        body: formData
+                    })
+                    .then(res => res.json())
+                    .then(data => {
+                        if (data.success) {
+                            alert("Administrador registrado exitosamente");
+                            form.reset();
+                        } else {
+                            alert("Error: " + data.message);
+                        }
+                    })
+                    .catch(err => console.error("Error en el registro:", err));
+                });
             });
     }
      function mostrarAgregarGrupo() {
@@ -166,6 +219,30 @@ function mostrarAgregarAlumno() {
             .then(response => response.text())
             .then(html => {
                 document.getElementById('contenido-dinamico').innerHTML = html;
+                cargarBloques(); // Cargar los grupos al select
+                cargarProfesores(); // Cargar los grupos al select
+                // 💡 Aquí mismo registramos el evento del formulario
+                const form = document.getElementById('formAlumno');
+                form.addEventListener('submit', function (event) {
+                    event.preventDefault();
+
+                    const formData = new FormData(form);
+
+                    fetch('formularios/insertar_grupo.php', {
+                        method: 'POST',
+                        body: formData
+                    })
+                    .then(res => res.json())
+                    .then(data => {
+                        if (data.success) {
+                            alert("Grupo registrado exitosamente");
+                            form.reset();
+                        } else {
+                            alert("Error: " + data.message);
+                        }
+                    })
+                    .catch(err => console.error("Error en el registro:", err));
+                });
             });
     }
 
