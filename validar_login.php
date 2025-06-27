@@ -14,7 +14,6 @@ $contrasena = $conn->real_escape_string($_POST['contrasena']);
 // Consulta al usuario
 $query = "SELECT * FROM usuario WHERE correo = '$correo' AND contrasena = '$contrasena'";
 $result = $conn->query($query);
-echo json_encode("segundopaso"<=true);
 // Verificar si hubo error en la consulta
 if (!$result) {
     die("Error en la consulta: " . $conn->error);

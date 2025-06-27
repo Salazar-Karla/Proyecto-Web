@@ -61,7 +61,22 @@
                 document.getElementById('contenido-dinamico').innerHTML = html;
             });
     }
-
+    function cargarGrupos() {
+    fetch('formularios/obtener_grupo.php')
+        .then(response => response.json())
+        .then(data => {
+            const select = document.getElementById('Grupo');
+            if (!select) return; // Evita error si no se encuentra el select
+            select.innerHTML = '<option value="">Seleccione un grupo</option>';
+            data.forEach(grupo => {
+                const option = document.createElement('option');
+                option.value = grupo.id_grupo;
+                option.textContent = "Grupo " + grupo.id_grupo;
+                select.appendChild(option);
+            });
+        })
+        .catch(err => console.error("Error al cargar grupos:", err));
+}
     function mostrarAgregarUsuario() {
         fetch('agregar_usuario.php')
             .then(response => response.text())
@@ -76,6 +91,7 @@
             .then(html => {
                 document.getElementById('contenido-dinamico').innerHTML = html;
             });
+        cargarGrupos();
     }
 
     function mostrarAgregarProfesor() {
@@ -150,6 +166,27 @@
         if (event.target === modalContacto) modalContacto.style.display = "none";
         if (event.target === modalAyuda) modalAyuda.style.display = "none";
     }
+    // Enviar formulario
+document.getElementById('formAlumno').addEventListener('submit', function (event) {
+    event.preventDefault(); // Evita recargar
+
+    const formData = new FormData(event.target);
+
+    fetch('formularios/insertar_alumno.php', {
+        method: 'POST',
+        body: formData
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (data.success) {
+            alert("Alumno registrado exitosamente");
+            event.target.reset();
+        } else {
+            alert("Error: " + data.message);
+        }
+    })
+    .catch(err => console.error("Error en el registro:", err));
+});
     </script>
 
 </body>
