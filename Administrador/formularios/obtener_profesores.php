@@ -7,7 +7,7 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 
-$sql = "SELECT u.id_usuario, u.nombre, u.ap_Pat, u.ap_Mat
+$sql = "SELECT p.id_profesor, u.nombre, u.ap_Pat, u.ap_Mat
 FROM profesor p
 JOIN usuario u ON p.id_usuario = u.id_usuario;
 ";

@@ -228,7 +228,7 @@ function mostrarAgregarAlumno() {
 
                     const formData = new FormData(form);
 
-                    fetch('formularios/insertar_grupo.php', {
+                    fetch('formularios/insertar_grupo_bloque.php', {
                         method: 'POST',
                         body: formData
                     })

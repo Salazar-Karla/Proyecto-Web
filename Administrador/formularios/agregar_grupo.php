@@ -10,7 +10,7 @@
 			</select>
 			<br><br>
 			<label for="Bloques">Grupo</label>
-			<select name="Bloques" id="Bloques" required multiple>
+			<select name="Bloques[]" id="Bloques" required multiple>
 				<option value="">Seleccione un grupo</option>
 			</select>
 			<br><br>
