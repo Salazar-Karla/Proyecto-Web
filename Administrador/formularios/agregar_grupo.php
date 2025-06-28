@@ -1,29 +1,28 @@
 <h2 class="titulo-seccion">Nuevo Grupo</h2>
-<div>
-	<form id="formAlumno">
+<section class="formulario-container">
+	<form id="formAlumno" class="formulario">
 		<fieldset>
 			<legend>Datos del Grupo</legend>
 
-			<label for="Profesor">Grupo</label>
-			<select name="Profesor" id="Profesor" required>
-				<option value="">Seleccione un grupo</option>
-			</select>
-			<br><br>
-			<label for="Bloques">Grupo</label>
-			<select name="Bloques[]" id="Bloques" required multiple>
-				<option value="">Seleccione un grupo</option>
-			</select>
-			<br><br>
-
-			<button type="submit" style="
-				background-color: #007BFF;
-				color: white;
-				padding: 10px 20px;
-				border: none;
-				border-radius: 5px;
-				cursor: pointer;
-			">Registrar Grupo</button>
-
+			<div class="campo fila">
+				<div class="grupo">
+					<label for="Profesor">Profesor</label>
+					<select name="Profesor" id="Profesor" required>
+						<option value="">Seleccione un grupo</option>
+					</select>
+				</div>
+				<div class="grupo">
+					<label for="Bloques">Bloques</label>
+					<select name="Bloques[]" id="Bloques" required multiple>
+						<option value="">Seleccione un grupo</option>
+					</select>
+				</div>
+				
+		
+			</div>
+			<div class="boton-container">
+				<button type="submit" class="btn-formulario">Registrar Grupo</button>
+			</div>
 		</fieldset>
 	</form>
 </div>
