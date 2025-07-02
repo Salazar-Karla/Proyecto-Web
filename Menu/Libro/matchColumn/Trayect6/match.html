@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>¡A clasificar cuerdas!</title>
+    <style>
+        body {
+            font-family: 'Comic Sans MS', cursive;
+            background: linear-gradient(135deg, #a8edea, #fed6e3);
+            text-align: center;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        h1 {
+            color: #ff6b6b;
+            font-size: 2.5em;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 10px;
+            animation: bounce 2s infinite;
+        }
+        
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        .instrucciones {
+            background-color: rgba(255,255,255,0.7);
+            border-radius: 15px;
+            padding: 10px;
+            margin: 0 auto 20px;
+            max-width: 500px;
+            font-size: 1.2em;
+            color: #555;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        .contenedor {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            margin: 30px auto;
+            max-width: 900px;
+        }
+        
+        .columna {
+            width: 250px;
+            min-height: 300px;
+            background-color: rgba(255,255,255,0.8);
+            border-radius: 20px;
+            padding: 15px;
+            margin: 10px;
+            box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+        
+        .columna:hover {
+            transform: translateY(-5px);
+        }
+        
+        .columna h2 {
+            color: white;
+            padding: 10px;
+            border-radius: 10px;
+            margin-top: 0;
+        }
+        
+        #pequenas h2 { background: #ff9ff3; }
+        #medianas h2 { background: #feca57; }
+        #grandes h2 { background: #1dd1a1; }
+        
+        .cuerda {
+            height: 30px;
+            margin: 15px auto;
+            border-radius: 15px;
+            cursor: grab;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+        }
+        
+        .cuerda:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 10px rgba(0,0,0,0.2);
+        }
+        
+        .cuerda-pequena {
+            width: 80px;
+            background: #ff9ff3;
+        }
+        
+        .cuerda-mediana {
+            width: 150px;
+            background: #feca57;
+        }
+        
+        .cuerda-grande {
+            width: 220px;
+            background: #1dd1a1;
+        }
+        
+        #cuerdas-disponibles {
+            background-color: rgba(255,255,255,0.7);
+            border-radius: 20px;
+            padding: 20px;
+            margin: 20px auto;
+            max-width: 800px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.1);
+            gap: 15px;
+        }
+        
+        #mensaje {
+            font-size: 1.5em;
+            padding: 15px;
+            background-color: rgba(255,255,255,0.8);
+            border-radius: 10px;
+            display: inline-block;
+            margin-top: 20px;
+            color: #555;
+        }
+        
+        .celebracion {
+            animation: celebrar 0.5s;
+        }
+        
+        @keyframes celebrar {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2) rotate(10deg); }
+            100% { transform: scale(1); }
+        }
+        
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            20%, 60% { transform: translateX(-8px); }
+            40%, 80% { transform: translateX(8px); }
+        }
+    </style>
+</head>
+<body>
+    <h1>🧶 Clasifica las Cuerdas</h1>
+    
+    <div class="instrucciones">
+        ¡Arrastra cada cuerda a la columna correcta según su tamaño!
+    </div>
+    
+    <div class="contenedor">
+        <div class="columna" id="pequenas" ondrop="soltar(event)" ondragover="permitirSoltar(event)">
+            <h2>Pequeñas</h2>
+        </div>
+        
+        <div class="columna" id="medianas" ondrop="soltar(event)" ondragover="permitirSoltar(event)">
+            <h2>Medianas</h2>
+        </div>
+        
+        <div class="columna" id="grandes" ondrop="soltar(event)" ondragover="permitirSoltar(event)">
+            <h2>Grandes</h2>
+        </div>
+    </div>
+    
+    <div id="cuerdas-disponibles">
+        <div class="cuerda cuerda-pequena" draggable="true" ondragstart="arrastrar(event)" id="cp1"></div>
+        <div class="cuerda cuerda-mediana" draggable="true" ondragstart="arrastrar(event)" id="cm1"></div>
+        <div class="cuerda cuerda-grande" draggable="true" ondragstart="arrastrar(event)" id="cg1"></div>
+        <div class="cuerda cuerda-pequena" draggable="true" ondragstart="arrastrar(event)" id="cp2"></div>
+        <div class="cuerda cuerda-mediana" draggable="true" ondragstart="arrastrar(event)" id="cm2"></div>
+        <div class="cuerda cuerda-grande" draggable="true" ondragstart="arrastrar(event)" id="cg2"></div>
+    </div>
+    
+    <div id="mensaje">¡Comienza a clasificar!</div>
+    
+    <script>
+        let aciertos = 0;
+        const totalCuerdas = 6;
+        
+        function permitirSoltar(ev) {
+            ev.preventDefault();
+        }
+        
+        function arrastrar(ev) {
+            ev.dataTransfer.setData("text", ev.target.id);
+            ev.target.style.opacity = '0.6';
+        }
+        
+        function soltar(ev) {
+            ev.preventDefault();
+            const id = ev.dataTransfer.getData("text");
+            const cuerda = document.getElementById(id);
+            const columna = ev.target.closest('.columna');
+            
+            // Restaurar opacidad
+            cuerda.style.opacity = '1';
+            
+            // Verificar si la clasificación es correcta
+            const esCorrecto = 
+                (cuerda.classList.contains('cuerda-pequena') && columna.id === "pequenas") ||
+                (cuerda.classList.contains('cuerda-mediana') && columna.id === "medianas") ||
+                (cuerda.classList.contains('cuerda-grande') && columna.id === "grandes");
+            
+            if (esCorrecto) {
+                columna.appendChild(cuerda);
+                aciertos++;
+                actualizarMensaje();
+                
+                // Efecto de celebración
+                cuerda.classList.add('celebracion');
+                setTimeout(() => cuerda.classList.remove('celebracion'), 500);
+            } else {
+                // Feedback de error
+                cuerda.style.animation = 'shake 0.5s';
+                setTimeout(() => cuerda.style.animation = '', 500);
+                document.getElementById('mensaje').textContent = '¡Ups! Esa no es la columna correcta';
+                document.getElementById('mensaje').style.color = '#ff6b6b';
+            }
+        }
+        
+        function actualizarMensaje() {
+            const mensaje = document.getElementById('mensaje');
+            
+            if (aciertos === totalCuerdas) {
+                mensaje.innerHTML = '¡Felicidades! Has clasificado todas las cuerdas correctamente';
+                mensaje.style.color = '#1dd1a1';
+                mensaje.style.fontWeight = 'bold';
+            } else {
+                mensaje.innerHTML = `Llevas ${aciertos} de ${totalCuerdas} cuerdas clasificadas`;
+                mensaje.style.color = '#555';
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rompecabezas de Cuerpos Geométricos</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f0f8ff;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        
+        .instrucciones {
+            background-color: white;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+            max-width: 600px;
+            text-align: center;
+        }
+        
+        .contenedor-principal {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 30px;
+            width: 100%;
+            max-width: 1000px;
+        }
+        
+        .figuras-container {
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            width: 300px;
+        }
+        
+        .figuras-container h2 {
+            color: #3498db;
+            text-align: center;
+            margin-top: 0;
+        }
+        
+        .figura {
+            width: 80px;
+            height: 80px;
+            margin: 10px;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            cursor: grab;
+            font-size: 40px;
+            transition: transform 0.2s;
+        }
+        
+        .figura:hover {
+            transform: scale(1.1);
+        }
+        
+        .area-rompecabezas {
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            width: 300px;
+            min-height: 300px;
+        }
+        
+        .area-rompecabezas h2 {
+            color: #3498db;
+            text-align: center;
+            margin-top: 0;
+        }
+        
+        .zona-entrega {
+            border: 3px dashed #7f8c8d;
+            border-radius: 10px;
+            min-height: 200px;
+            padding: 10px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s;
+        }
+        
+        .zona-entrega.highlight {
+            border-color: #3498db;
+            background-color: #eaf2f8;
+        }
+        
+        .figura-colocada {
+            width: 70px;
+            height: 70px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 35px;
+            background-color: #e8f8f5;
+            border-radius: 8px;
+            margin: 5px;
+        }
+        
+        .botones {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+        
+        button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .verificar {
+            background-color: #2ecc71;
+            color: white;
+        }
+        
+        .verificar:hover {
+            background-color: #27ae60;
+        }
+        
+        .reiniciar {
+            background-color: #e74c3c;
+            color: white;
+        }
+        
+        .reiniciar:hover {
+            background-color: #c0392b;
+        }
+        
+        .feedback {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: bold;
+            display: none;
+            max-width: 600px;
+        }
+        
+        .correcto {
+            background-color: #2ecc71;
+            color: white;
+        }
+        
+        .incorrecto {
+            background-color: #e74c3c;
+            color: white;
+        }
+        
+        /* Figuras geométricas */
+        .circulo {
+            background-color: #f9e79f;
+            border-radius: 50%;
+        }
+        
+        .cuadrado {
+            background-color: #aed6f1;
+        }
+        
+        .triangulo {
+            background-color: #f5b7b1;
+            clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+        }
+        
+        .rectangulo {
+            background-color: #d5f5e3;
+            width: 100px;
+        }
+        
+        .rombo {
+            background-color: #e8daef;
+            transform: rotate(45deg);
+            width: 60px;
+            height: 60px;
+        }
+        
+        .cubo {
+            background-color: #fadbd8;
+            position: relative;
+        }
+        
+        .cubo::before {
+            content: "◼";
+            position: absolute;
+            transform: rotate(30deg);
+        }
+        
+        .esfera {
+            background-color: #d1f2eb;
+            border-radius: 50%;
+        }
+        
+        .piramide {
+            background-color: #fdebd0;
+            clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+            position: relative;
+        }
+        
+        .piramide::after {
+            content: "△";
+            position: absolute;
+            top: 20%;
+        }
+        
+        .prisma {
+            background-color: #d6eaf8;
+            clip-path: polygon(25% 0%, 75% 0%, 100% 100%, 0% 100%);
+        }
+    </style>
+</head>
+<body>
+    <h1>Rompecabezas de Figuras y Cuerpos Geométricos</h1>
+    
+    <div class="instrucciones">
+        <p>¡Clasifica las figuras geométricas y los cuerpos geométricos arrastrándolos a la zona correspondiente!</p>
+        <p>Arrastra cada figura al área del rompecabezas y luego verifica tu respuesta.</p>
+    </div>
+    
+    <div class="contenedor-principal">
+        <div class="figuras-container">
+            <h2>Figuras Geométricas</h2>
+            <div class="figura circulo" draggable="true" data-tipo="figura" data-forma="círculo">●</div>
+            <div class="figura cuadrado" draggable="true" data-tipo="figura" data-forma="cuadrado">■</div>
+            <div class="figura triangulo" draggable="true" data-tipo="figura" data-forma="triángulo">▲</div>
+            <div class="figura rectangulo" draggable="true" data-tipo="figura" data-forma="rectángulo">▬</div>
+            <div class="figura rombo" draggable="true" data-tipo="figura" data-forma="rombo">◆</div>
+        </div>
+        
+        <div class="figuras-container">
+            <h2>Cuerpos Geométricos</h2>
+            <div class="figura cubo" draggable="true" data-tipo="cuerpo" data-forma="cubo">◼</div>
+            <div class="figura esfera" draggable="true" data-tipo="cuerpo" data-forma="esfera">⚫</div>
+            <div class="figura piramide" draggable="true" data-tipo="cuerpo" data-forma="pirámide">△</div>
+            <div class="figura prisma" draggable="true" data-tipo="cuerpo" data-forma="prisma">▰</div>
+        </div>
+        
+        <div class="area-rompecabezas">
+            <h2>Clasifica las figuras</h2>
+            <div class="zona-entrega" id="zonaFiguras">
+                <p>Suelta aquí las figuras geométricas</p>
+            </div>
+            <div class="zona-entrega" id="zonaCuerpos">
+                <p>Suelta aquí los cuerpos geométricos</p>
+            </div>
+            <div class="botones">
+                <button class="verificar" id="verificar">Verificar</button>
+                <button class="reiniciar" id="reiniciar">Reiniciar</button>
+            </div>
+            <div class="feedback" id="feedback"></div>
+        </div>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const figuras = document.querySelectorAll('.figura');
+            const zonaFiguras = document.getElementById('zonaFiguras');
+            const zonaCuerpos = document.getElementById('zonaCuerpos');
+            const verificarBtn = document.getElementById('verificar');
+            const reiniciarBtn = document.getElementById('reiniciar');
+            const feedback = document.getElementById('feedback');
+            
+            let figuraArrastrada = null;
+            
+            // Eventos para las figuras arrastrables
+            figuras.forEach(figura => {
+                figura.addEventListener('dragstart', function(e) {
+                    figuraArrastrada = this;
+                    setTimeout(() => this.style.opacity = '0.4', 0);
+                    e.dataTransfer.setData('text/plain', this.dataset.tipo);
+                });
+                
+                figura.addEventListener('dragend', function() {
+                    this.style.opacity = '1';
+                });
+            });
+            
+            // Eventos para las zonas de entrega
+            [zonaFiguras, zonaCuerpos].forEach(zona => {
+                zona.addEventListener('dragover', function(e) {
+                    e.preventDefault();
+                    this.classList.add('highlight');
+                });
+                
+                zona.addEventListener('dragleave', function() {
+                    this.classList.remove('highlight');
+                });
+                
+                zona.addEventListener('drop', function(e) {
+                    e.preventDefault();
+                    this.classList.remove('highlight');
+                    
+                    const tipo = e.dataTransfer.getData('text/plain');
+                    const zonaCorrecta = (zona === zonaFiguras && tipo === 'figura') || 
+                                       (zona === zonaCuerpos && tipo === 'cuerpo');
+                    
+                    if (figuraArrastrada && zonaCorrecta) {
+                        const figuraClonada = figuraArrastrada.cloneNode(true);
+                        figuraClonada.classList.remove('figura');
+                        figuraClonada.classList.add('figura-colocada');
+                        figuraClonada.draggable = false;
+                        figuraClonada.style.opacity = '1';
+                        figuraClonada.style.cursor = 'default';
+                        
+                        // Eliminar el texto de placeholder si existe
+                        if (this.querySelector('p')) {
+                            this.removeChild(this.querySelector('p'));
+                        }
+                        
+                        this.appendChild(figuraClonada);
+                    }
+                });
+            });
+            
+            // Verificar la clasificación
+            verificarBtn.addEventListener('click', function() {
+                const figurasEnZonaFiguras = zonaFiguras.querySelectorAll('[data-tipo="figura"]');
+                const cuerposEnZonaCuerpos = zonaCuerpos.querySelectorAll('[data-tipo="cuerpo"]');
+                const figurasEnZonaCuerpos = zonaCuerpos.querySelectorAll('[data-tipo="figura"]');
+                const cuerposEnZonaFiguras = zonaFiguras.querySelectorAll('[data-tipo="cuerpo"]');
+                
+                const correcto = figurasEnZonaFiguras.length > 0 && 
+                               cuerposEnZonaCuerpos.length > 0 &&
+                               figurasEnZonaCuerpos.length === 0 &&
+                               cuerposEnZonaFiguras.length === 0;
+                
+                if (correcto) {
+                    feedback.textContent = '¡Correcto! Has clasificado perfectamente las figuras y cuerpos geométricos.';
+                    feedback.className = 'feedback correcto';
+                } else {
+                    feedback.textContent = '¡Ups! Algunas figuras o cuerpos no están en el lugar correcto. Inténtalo de nuevo.';
+                    feedback.className = 'feedback incorrecto';
+                }
+                
+                feedback.style.display = 'block';
+            });
+            
+            // Reiniciar el rompecabezas
+            reiniciarBtn.addEventListener('click', function() {
+                [zonaFiguras, zonaCuerpos].forEach(zona => {
+                    // Eliminar todas las figuras colocadas
+                    while (zona.firstChild) {
+                        zona.removeChild(zona.firstChild);
+                    }
+                    
+                    // Agregar nuevamente el texto de placeholder
+                    const textoPlaceholder = document.createElement('p');
+                    textoPlaceholder.textContent = zona === zonaFiguras 
+                        ? 'Suelta aquí las figuras geométricas' 
+                        : 'Suelta aquí los cuerpos geométricos';
+                    zona.appendChild(textoPlaceholder);
+                });
+                
+                feedback.style.display = 'none';
+            });
+        });
+    </script>
+</body>
+</html>

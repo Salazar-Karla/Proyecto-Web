@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Figuras y Cuerpos Geométricos</title>
+  <style>
+    body {
+      font-family: 'Comic Sans MS', cursive, sans-serif;
+      background: linear-gradient(to right, #f3e5f5, #ede7f6);
+      margin: 0;
+      padding: 20px;
+      color: #4a148c;
+    }
+
+    header {
+      background-color: #7b1fa2;
+      color: white;
+      padding: 20px;
+      text-align: center;
+      border-radius: 12px;
+    }
+
+    .actividad {
+      background-color: #ffffff;
+      border: 3px dashed #ba68c8;
+      border-radius: 12px;
+      padding: 20px;
+      margin: 20px 0;
+      box-shadow: 4px 4px 8px rgba(0,0,0,0.1);
+    }
+
+    h2 {
+      color: #6a1b9a;
+      margin-top: 20px;
+    }
+
+    p {
+      line-height: 1.6;
+      margin-bottom: 15px;
+    }
+
+    ul {
+      list-style-type: square;
+      padding-left: 20px;
+      margin-bottom: 15px;
+    }
+
+    .instruccion {
+      font-weight: bold;
+      color: #8e24aa;
+      margin-top: 10px;
+    }
+
+    .introduccion {
+      background-color: #f8eafc;
+      border: 2px solid #ce93d8;
+      border-radius: 10px;
+      padding: 20px;
+      margin-top: 25px;
+    }
+
+    input[type="text"], select {
+      display: block;
+      margin: 5px 0 15px;
+      padding: 5px;
+      width: 100%;
+      max-width: 400px;
+    }
+
+    button {
+      background-color: #8e24aa;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    .resultado {
+      font-weight: bold;
+      margin-top: 10px;
+      white-space: pre-wrap;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>🔷 ¡Aprendamos Figuras y Cuerpos Geométricos! 🔷</h1>
+    <p>📐 Un divertido recorrido por el mundo de las formas.</p>
+  </header>
+
+  <section class="introduccion">
+    <h2>🔺 ¿Qué son las figuras geométricas?</h2>
+    <p>📏 Las <strong>figuras geométricas planas</strong> son aquellas que solo tienen dos dimensiones: largo y ancho. Se pueden dibujar en una hoja de papel.</p>
+    <p>👉 Ejemplos:</p>
+    <ul>
+      <li>🔶 <strong>Cuadrado:</strong> todos sus lados son iguales.</li>
+      <li>🔷 <strong>Rectángulo:</strong> tiene lados iguales dos a dos.</li>
+      <li>🔺 <strong>Triángulo:</strong> tiene tres lados y tres ángulos.</li>
+      <li>⚪ <strong>Círculo:</strong> no tiene lados ni vértices.</li>
+    </ul>
+  </section>
+
+  <section class="introduccion">
+    <h2>🧊 ¿Qué son los cuerpos geométricos?</h2>
+    <p>📦 Los <strong>cuerpos geométricos</strong> son figuras tridimensionales: tienen largo, ancho y alto.</p>
+    <p>👉 Ejemplos:</p>
+    <ul>
+      <li>🧊 <strong>Cubo:</strong> todos sus lados son cuadrados.</li>
+      <li>📦 <strong>Prisma rectangular:</strong> como una caja de zapatos.</li>
+      <li>🔵 <strong>Esfera:</strong> como una pelota, sin caras planas.</li>
+      <li>🔺 <strong>Pirámide:</strong> tiene una base y caras triangulares.</li>
+    </ul>
+  </section>
+
+  <section class="actividad">
+    <h2>✏️ Actividad 1: Elige la figura correcta</h2>
+    <p class="instruccion">📊 Escoge la respuesta correcta:</p>
+    <form id="actividad1">
+      <label>🟪 ¿Cuál de estas figuras es plana?
+        <select name="figuraPlana">
+          <option value="">Selecciona</option>
+          <option value="cuadrado">Cuadrado</option>
+          <option value="esfera">Esfera</option>
+          <option value="cubo">Cubo</option>
+        </select>
+      </label>
+
+      <label>📦 ¿Cuál es un cuerpo geométrico?
+        <select name="cuerpoGeometrico">
+          <option value="">Selecciona</option>
+          <option value="círculo">Círculo</option>
+          <option value="triángulo">Triángulo</option>
+          <option value="cubo">Cubo</option>
+        </select>
+      </label>
+
+      <label>⚪ ¿Qué figura no tiene lados?
+        <select name="sinLados">
+          <option value="">Selecciona</option>
+          <option value="círculo">Círculo</option>
+          <option value="cuadrado">Cuadrado</option>
+          <option value="rectángulo">Rectángulo</option>
+        </select>
+      </label>
+
+      <button type="button" onclick="calificarActividad1()">Calificar</button>
+      <p id="resultado1" class="resultado"></p>
+    </form>
+  </section>
+
+  <section class="actividad">
+    <h2>✍️ Actividad 2: Figuras en la vida real</h2>
+    <p class="instruccion">🔍 Escoge lo que se parece a cada figura:</p>
+    <form id="actividad2">
+      <label>🧊 ¿Qué objeto se parece a un cubo?
+        <select name="objetoCubo">
+          <option value="">Selecciona</option>
+          <option value="dado">Un dado</option>
+          <option value="pelota">Una pelota</option>
+          <option value="plato">Un plato</option>
+        </select>
+      </label>
+
+      <label>⚽ ¿Qué objeto se parece a una esfera?
+        <select name="objetoEsfera">
+          <option value="">Selecciona</option>
+          <option value="caja">Una caja</option>
+          <option value="balón">Un balón</option>
+          <option value="libro">Un libro</option>
+        </select>
+      </label>
+
+      <label>🔺 ¿Qué objeto tiene forma de triángulo?
+        <select name="objetoTriangulo">
+          <option value="">Selecciona</option>
+          <option value="señal">Una señal de tránsito</option>
+          <option value="botella">Una botella</option>
+          <option value="vaso">Un vaso</option>
+        </select>
+      </label>
+
+      <button type="button" onclick="calificarActividad2()">Calificar</button>
+      <p id="resultado2" class="resultado"></p>
+    </form>
+  </section>
+
+  <script>
+    function calificarActividad1() {
+      const respuestas = document.forms["actividad1"];
+      const correctas = {
+        figuraPlana: "cuadrado",
+        cuerpoGeometrico: "cubo",
+        sinLados: "círculo"
+      };
+
+      let puntuacion = 0;
+      let resultado = "";
+
+      for (const campo in correctas) {
+        const valor = respuestas[campo].value;
+        if (valor === correctas[campo]) {
+          puntuacion++;
+        } else {
+          resultado += `❌ En la pregunta "${campo}", la respuesta correcta era "${correctas[campo]}".\n\n`;
+        }
+      }
+
+      resultado = `✅ ¡Obtuviste ${puntuacion} de 3 respuestas correctas!\n\n` + resultado;
+      document.getElementById("resultado1").innerText = resultado;
+    }
+
+    function calificarActividad2() {
+      const respuestas = document.forms["actividad2"];
+      const correctas = {
+        objetoCubo: "dado",
+        objetoEsfera: "balón",
+        objetoTriangulo: "señal"
+      };
+
+      let puntuacion = 0;
+      let resultado = "";
+
+      for (const campo in correctas) {
+        const valor = respuestas[campo].value;
+        if (valor === correctas[campo]) {
+          puntuacion++;
+        } else {
+          resultado += `❌ En la pregunta "${campo}", la respuesta correcta era "${correctas[campo]}".\n\n`;
+        }
+      }
+
+      resultado = `✅ ¡Obtuviste ${puntuacion} de 3 respuestas correctas!\n\n` + resultado;
+      document.getElementById("resultado2").innerText = resultado;
+    }
+  </script>
+</body>
+</html>
+

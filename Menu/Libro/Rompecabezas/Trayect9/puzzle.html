@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>¡Fiesta de Manteles!</title>
+    <style>
+        body {
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            background-color: #FFEBF3;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        h1 {
+            color: #FF6B9D;
+            text-shadow: 2px 2px 0px #FFD1DC;
+            font-size: 2.5em;
+            margin-bottom: 30px;
+        }
+        
+        .contenedor-manteles, .contenedor-mesas {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .mantel {
+            width: 150px;
+            height: 150px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2em;
+            color: white;
+            cursor: grab;
+            box-shadow: 5px 5px 15px rgba(0,0,0,0.2);
+            transition: transform 0.3s, box-shadow 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .mantel:hover {
+            transform: scale(1.05);
+            box-shadow: 7px 7px 20px rgba(0,0,0,0.3);
+        }
+        
+        .mantel::before {
+            content: "";
+            position: absolute;
+            top: -10px;
+            left: -10px;
+            right: -10px;
+            bottom: -10px;
+            background: linear-gradient(45deg, 
+                          rgba(255,255,255,0.3) 0%, 
+                          rgba(255,255,255,0) 50%, 
+                          rgba(255,255,255,0.3) 100%);
+            transform: rotate(45deg);
+            z-index: 1;
+        }
+        
+        #mantel-cuadrado {
+            background: linear-gradient(135deg, #FF9E7D, #FF6B9D);
+        }
+        
+        #mantel-redondo {
+            background: linear-gradient(135deg, #7DC8FF, #6B9DFF);
+            border-radius: 50%;
+        }
+        
+        #mantel-triangular {
+            background: linear-gradient(135deg, #A2FF7D, #6BFF9D);
+            clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+        }
+        
+        .mesa {
+            width: 180px;
+            height: 180px;
+            background-color: #FFD1DC;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2em;
+            color: #FF6B9D;
+            box-shadow: inset 0 0 20px rgba(0,0,0,0.1);
+            position: relative;
+            transition: all 0.3s;
+        }
+        
+        .mesa::after {
+            content: "";
+            position: absolute;
+            width: 90%;
+            height: 90%;
+            border: 3px dashed rgba(255,107,157,0.5);
+            border-radius: inherit;
+        }
+        
+        .mesa.ok {
+            background-color: #C8F7C5;
+            color: #2ECC71;
+            animation: celebración 0.5s ease-in-out;
+        }
+        
+        .mesa.ok::after {
+            content: "✓ ¡Correcto!";
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5em;
+            color: #2ECC71;
+            border: none;
+        }
+        
+        @keyframes celebración {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+        
+        .mensaje {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #FFF9C4;
+            border-radius: 10px;
+            color: #FF9800;
+            font-size: 1.2em;
+            display: inline-block;
+            box-shadow: 3px 3px 10px rgba(0,0,0,0.1);
+        }
+        
+        .patrones {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(circle, white 10%, transparent 10%),
+                radial-gradient(circle, white 10%, transparent 10%);
+            background-size: 30px 30px;
+            background-position: 0 0, 15px 15px;
+            opacity: 0.3;
+        }
+    </style>
+</head>
+<body>
+    <h1>¡Fiesta de Manteles! 🎉</h1>
+    
+    <div class="contenedor-manteles">
+        <div class="mantel" id="mantel-cuadrado" draggable="true">
+            <div class="patrones"></div>
+            <span>Cuadrado ⬜</span>
+        </div>
+        <div class="mantel" id="mantel-redondo" draggable="true">
+            <div class="patrones"></div>
+            <span>Redondo ⚪</span>
+        </div>
+        <div class="mantel" id="mantel-triangular" draggable="true">
+            <div class="patrones"></div>
+            <span>Triangular ▲</span>
+        </div>
+    </div>
+    
+    <div class="contenedor-mesas">
+        <div class="mesa" data-forma="mantel-cuadrado">
+            Mesa Cuadrada
+        </div>
+        <div class="mesa" data-forma="mantel-redondo">
+            Mesa Redonda
+        </div>
+        <div class="mesa" data-forma="mantel-triangular">
+            Mesa Triangular
+        </div>
+    </div>
+    
+    <div class="mensaje">Arrastra cada mantel a su mesa correspondiente</div>
+    
+    <script>
+        // Efecto al empezar a arrastrar
+        document.querySelectorAll('.mantel').forEach(mantel => {
+            mantel.addEventListener('dragstart', e => {
+                e.dataTransfer.setData('text', mantel.id);
+                mantel.style.opacity = '0.5';
+                mantel.style.transform = 'rotate(5deg)';
+            });
+            
+            mantel.addEventListener('dragend', () => {
+                mantel.style.opacity = '1';
+                mantel.style.transform = '';
+            });
+        });
+        
+        // Manejar el drop en las mesas
+        document.querySelectorAll('.mesa').forEach(mesa => {
+            mesa.addEventListener('dragover', e => {
+                e.preventDefault();
+                mesa.style.transform = 'scale(1.05)';
+            });
+            
+            mesa.addEventListener('dragleave', () => {
+                mesa.style.transform = '';
+            });
+            
+            mesa.addEventListener('drop', e => {
+                e.preventDefault();
+                mesa.style.transform = '';
+                
+                const idMantel = e.dataTransfer.getData('text');
+                
+                if (mesa.dataset.forma === idMantel) {
+                    mesa.classList.add('ok');
+                    
+                    // Sonido de éxito (opcional)
+                    const audio = new Audio('https://assets.mixkit.co/sfx/preview/mixkit-correct-answer-tone-2870.mp3');
+                    audio.play();
+                    
+                    // Verificar si todas están correctas
+                    const todasCorrectas = [...document.querySelectorAll('.mesa')]
+                        .every(m => m.classList.contains('ok'));
+                    
+                    if (todasCorrectas) {
+                        document.querySelector('.mensaje').textContent = 
+                            '¡Felicidades! 🎊 Todos los manteles están en su lugar';
+                        document.querySelector('.mensaje').style.backgroundColor = '#C8F7C5';
+                        document.querySelector('.mensaje').style.color = '#2ECC71';
+                    }
+                } else {
+                    // Feedback de error
+                    mesa.style.animation = 'shake 0.5s';
+                    setTimeout(() => mesa.style.animation = '', 500);
+                    
+                    document.querySelector('.mensaje').textContent = 
+                        '¡Ups! Ese no es el mantel correcto. Intenta otra vez';
+                    document.querySelector('.mensaje').style.backgroundColor = '#FFCDD2';
+                    document.querySelector('.mensaje').style.color = '#E53935';
+                    
+                    // Sonido de error (opcional)
+                    const audio = new Audio('https://assets.mixkit.co/sfx/preview/mixkit-wrong-answer-fail-notification-946.mp3');
+                    audio.play();
+                }
+            });
+        });
+        
+        // Animación de shake para errores
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes shake {
+                0%, 100% { transform: translateX(0); }
+                20%, 60% { transform: translateX(-5px); }
+                40%, 80% { transform: translateX(5px); }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>

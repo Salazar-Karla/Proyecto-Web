@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mosaicos y Figuras</title>
+  <style>
+    body {
+      font-family: 'Comic Sans MS', cursive, sans-serif;
+      background: linear-gradient(to right, #fff3e0, #ffe0b2);
+      margin: 0;
+      padding: 20px;
+      color: #e65100;
+    }
+
+    header {
+      background-color: #ef6c00;
+      color: white;
+      padding: 20px;
+      text-align: center;
+      border-radius: 12px;
+    }
+
+    .seccion {
+      background-color: #ffffff;
+      border: 3px dashed #ffb74d;
+      border-radius: 12px;
+      padding: 20px;
+      margin: 20px 0;
+      box-shadow: 4px 4px 8px rgba(0,0,0,0.1);
+    }
+
+    h2 {
+      color: #ef6c00;
+      margin-top: 20px;
+    }
+
+    p {
+      line-height: 1.6;
+      margin-bottom: 15px;
+    }
+
+    .instruccion {
+      font-weight: bold;
+      color: #e65100;
+      margin-top: 10px;
+    }
+
+    .actividad {
+      margin-top: 20px;
+    }
+
+    select, button {
+      display: block;
+      margin: 10px 0;
+      padding: 8px;
+      width: 100%;
+      max-width: 400px;
+    }
+
+    button {
+      background-color: #f57c00;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    .resultado {
+      font-weight: bold;
+      margin-top: 10px;
+      white-space: pre-wrap;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>🔶🟧 ¡Explorando Mosaicos y Figuras! 🟧🔶</h1>
+    <p>🎨 Descubre cómo las formas se combinan para crear patrones mágicos</p>
+  </header>
+
+  <section class="seccion">
+    <h2>🧩 ¿Qué es un mosaico?</h2>
+    <p>Un <strong>mosaico</strong> es una imagen hecha con <strong>figuras que se repiten</strong> sin dejar espacios.</p>
+    <p>🟧🟨🟥 Por ejemplo: usando muchos cuadrados o triángulos uno junto a otro.</p>
+  </section>
+
+  <section class="seccion">
+    <h2>🔷 ¿Qué son las configuraciones geométricas?</h2>
+    <p>Una <strong>configuración geométrica</strong> es cuando <strong>acomodamos figuras</strong> de forma ordenada.</p>
+    <p>🟠🟣 Triángulo, círculo, triángulo, círculo... ¡eso es un patrón!</p>
+  </section>
+
+  <section class="seccion">
+    <h2>🟩 Figuras que encajan como rompecabezas</h2>
+    <p>Algunas figuras encajan perfecto y no dejan huecos. ¡Eso ayuda a formar un mosaico!</p>
+    <p>🟨🟨🟨 Los cuadrados y triángulos encajan muy bien juntos.</p>
+  </section>
+
+  <section class="seccion actividad">
+    <h2>✏️ Actividad: ¡Responde sobre los mosaicos!</h2>
+    <p class="instruccion">✅ Elige la opción correcta para cada pregunta:</p>
+    <form id="actividadMosaicos">
+      <label>🟧 ¿Qué figura puede formar un mosaico sin dejar espacios?
+        <select name="figuraMosaico">
+          <option value="">Selecciona</option>
+          <option value="circulo">Círculo</option>
+          <option value="cuadrado">Cuadrado</option>
+        </select>
+      </label>
+
+      <label>🟠 ¿Qué es una configuración geométrica?
+        <select name="configuracion">
+          <option value="">Selecciona</option>
+          <option value="desorden">Un desorden de figuras</option>
+          <option value="orden">Un orden con figuras</option>
+        </select>
+      </label>
+
+      <label>🔶 ¿Se pueden usar triángulos en un mosaico?
+        <select name="usarTriangulos">
+          <option value="">Selecciona</option>
+          <option value="si">Sí</option>
+          <option value="no">No</option>
+        </select>
+      </label>
+
+      <button type="button" onclick="calificarMosaicos()">Calificar</button>
+      <p id="resultadoMosaicos" class="resultado"></p>
+    </form>
+  </section>
+
+  <script>
+    function calificarMosaicos() {
+      const respuestas = document.forms["actividadMosaicos"];
+      const correctas = {
+        figuraMosaico: "cuadrado",
+        configuracion: "orden",
+        usarTriangulos: "si"
+      };
+
+      let puntuacion = 0;
+      let resultado = "";
+
+      for (const campo in correctas) {
+        const valor = respuestas[campo].value;
+        if (valor === correctas[campo]) {
+          puntuacion++;
+        } else {
+          resultado += `❌ En la pregunta "${campo}", la respuesta correcta era "${correctas[campo]}".\n\n`;
+        }
+      }
+
+      resultado = `✅ ¡Obtuviste ${puntuacion} de 3 respuestas correctas!\n\n` + resultado;
+      document.getElementById("resultadoMosaicos").innerText = resultado;
+    }
+  </script>
+</body>
+</html>

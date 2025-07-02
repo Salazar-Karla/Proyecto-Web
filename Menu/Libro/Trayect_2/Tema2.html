@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Peso y Balanza</title>
+  <style>
+    body {
+      font-family: 'Comic Sans MS', cursive, sans-serif;
+      background: linear-gradient(to right, #e8f5e9, #f1f8e9);
+      margin: 0;
+      padding: 20px;
+      color: #2e7d32;
+    }
+
+    header {
+      background-color: #388e3c;
+      color: white;
+      padding: 20px;
+      text-align: center;
+      border-radius: 12px;
+    }
+
+    .seccion {
+      background-color: #ffffff;
+      border: 3px dashed #a5d6a7;
+      border-radius: 12px;
+      padding: 20px;
+      margin: 20px 0;
+      box-shadow: 4px 4px 8px rgba(0,0,0,0.1);
+    }
+
+    h2 {
+      color: #2e7d32;
+      margin-top: 20px;
+    }
+
+    p {
+      line-height: 1.6;
+      margin-bottom: 15px;
+    }
+
+    .instruccion {
+      font-weight: bold;
+      color: #33691e;
+      margin-top: 10px;
+    }
+
+    .actividad {
+      margin-top: 20px;
+    }
+
+    select, button {
+      display: block;
+      margin: 10px 0;
+      padding: 8px;
+      width: 100%;
+      max-width: 400px;
+    }
+
+    button {
+      background-color: #43a047;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    .resultado {
+      font-weight: bold;
+      margin-top: 10px;
+      white-space: pre-wrap;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>⚖️✨ Aprendamos sobre Peso y Balanza ✨⚖️</h1>
+    <p>🎓 Descubramos el peso de los objetos y cómo usar la balanza</p>
+  </header>
+
+  <section class="seccion">
+    <h2>⚖️¿Qué es el peso?</h2>
+    <p>El <strong>peso</strong> es una medida de cuán pesado es un objeto. 
+      Lo usamos para saber si algo es ligero o pesado.</p>
+    <p>🥓 Por ejemplo: una manzana pesa menos que una sandía.</p>
+  </section>
+
+  <section class="seccion">
+    <h2>⚖️ ¿Para qué sirve una balanza?</h2>
+    <p>La <strong>balanza</strong> es una herramienta que usamos para <strong>comparar pesos</strong>.</p>
+    <p>Cuando los dos lados de la balanza están al mismo nivel, los objetos pesan lo mismo.</p>
+    <p>🔹 Si un lado baja, significa que ese objeto pesa más.</p>
+  </section>
+
+  <section class="seccion">
+    <h2>💡 Mismo peso en cosas diferentes</h2>
+    <p>Dos cosas pueden pesar lo mismo aunque se vean diferentes.</p>
+    <p>🧵 Ejemplo: una bolsa de arroz y un paquete de azúcar pueden tener el mismo peso, 
+      aunque uno sea más grande que el otro.</p>
+  </section>
+
+  <section class="seccion actividad">
+    <h2>📝 Actividad: ¡Elige la respuesta correcta!</h2>
+    <p class="instruccion">✅ Selecciona la opción correcta para cada pregunta:</p>
+    <form id="actividadPeso">
+      <label>💰 ¿Qué objeto pesa más?
+        <select name="objetoPesado">
+          <option value="">Selecciona</option>
+          <option value="globo">Un globo</option>
+          <option value="ladrillo">Un ladrillo</option>
+        </select>
+      </label>
+
+      <label>🔺 ¿Qué significa si la balanza está equilibrada?
+        <select name="balanzaEquilibrada">
+          <option value="">Selecciona</option>
+          <option value="igual">Los objetos pesan lo mismo</option>
+          <option value="diferente">Un objeto pesa más</option>
+        </select>
+      </label>
+
+      <label>🏠 ¿Pueden pesar lo mismo dos objetos diferentes?
+        <select name="mismoPeso">
+          <option value="">Selecciona</option>
+          <option value="si">Sí</option>
+          <option value="no">No</option>
+        </select>
+      </label>
+
+      <button type="button" onclick="calificarPeso()">Calificar</button>
+      <p id="resultadoPeso" class="resultado"></p>
+    </form>
+  </section>
+
+  <script>
+    function calificarPeso() {
+      const respuestas = document.forms["actividadPeso"];
+      const correctas = {
+        objetoPesado: "ladrillo",
+        balanzaEquilibrada: "igual",
+        mismoPeso: "si"
+      };
+
+      let puntuacion = 0;
+      let resultado = "";
+
+      for (const campo in correctas) {
+        const valor = respuestas[campo].value;
+        if (valor === correctas[campo]) {
+          puntuacion++;
+        } else {
+          resultado += `❌ En la pregunta "${campo}", la respuesta correcta era "${correctas[campo]}".\n\n`;
+        }
+      }
+
+      resultado = `✅ ¡Obtuviste ${puntuacion} de 3 respuestas correctas!\n\n` + resultado;
+      document.getElementById("resultadoPeso").innerText = resultado;
+    }
+  </script>
+</body>
+</html>

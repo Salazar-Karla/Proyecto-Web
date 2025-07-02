@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formas y Colores Mágicos</title>
+    <style>
+        body {
+            font-family: 'Comic Sans MS', cursive;
+            background: linear-gradient(135deg, #FF9A8B, #F6C, #A18CD1);
+            text-align: center;
+            padding: 20px;
+            min-height: 100vh;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            color: #FFF;
+            animation: titile 2s infinite alternate;
+        }
+        
+        @keyframes titile {
+            0% { transform: scale(1); }
+            100% { transform: scale(1.05); }
+        }
+        
+        .contenedor {
+            display: flex;
+            justify-content: space-around;
+            margin: 30px auto;
+            max-width: 800px;
+            flex-wrap: wrap;
+        }
+        
+        .objeto {
+            width: 80px;
+            height: 80px;
+            margin: 15px;
+            cursor: grab;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2em;
+            box-shadow: 0 6px 10px rgba(0,0,0,0.2);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .objeto:hover {
+            transform: scale(1.1) rotate(10deg);
+            box-shadow: 0 8px 15px rgba(0,0,0,0.3);
+        }
+        
+        .caja {
+            width: 200px;
+            min-height: 200px;
+            background-color: rgba(255,255,255,0.8);
+            border-radius: 15px;
+            padding: 15px;
+            margin: 10px;
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.1);
+        }
+        
+        .caja h2 {
+            color: #333;
+            margin-top: 0;
+        }
+        
+        #resultado {
+            font-size: 1.5em;
+            margin-top: 20px;
+            padding: 15px;
+            background-color: rgba(255,255,255,0.8);
+            border-radius: 10px;
+            color: #333;
+            display: inline-block;
+        }
+        
+        .estrella {
+            color: gold;
+            font-size: 1.5em;
+            margin: 0 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>🌈 Formas y Colores Mágicos</h1>
+    <p>¡Arrastra cada objeto a su caja correcta!</p>
+    
+    <div class="contenedor">
+        <div class="caja" id="rojo" ondrop="soltar(event)" ondragover="permitirSoltar(event)">
+            <h2>🔴 Objetos Rojos</h2>
+        </div>
+        
+        <div class="caja" id="azul" ondrop="soltar(event)" ondragover="permitirSoltar(event)">
+            <h2>🔵 Objetos Azules</h2>
+        </div>
+        
+        <div class="caja" id="amarillo" ondrop="soltar(event)" ondragover="permitirSoltar(event)">
+            <h2>🟡 Objetos Amarillos</h2>
+        </div>
+    </div>
+    
+    <div class="contenedor">
+        <div class="objeto" draggable="true" id="sol" style="background: #FFD700;">☀️</div>
+        <div class="objeto" draggable="true" id="manzana" style="background: #FF6B6B;">🍎</div>
+        <div class="objeto" draggable="true" id="mar" style="background: #74B9FF;">🌊</div>
+        <div class="objeto" draggable="true" id="platano" style="background: #FFEAA7;">🍌</div>
+        <div class="objeto" draggable="true" id="fresa" style="background: #FF7675;">🍓</div>
+        <div class="objeto" draggable="true" id="cielo" style="background: #0984E3;">☁️</div>
+    </div>
+    
+    <div id="resultado"></div>
+    
+    <script>
+        let aciertos = 0;
+        
+        function permitirSoltar(ev) {
+            ev.preventDefault();
+        }
+        
+        function soltar(ev) {
+            ev.preventDefault();
+            const id = ev.dataTransfer.getData("text");
+            const objeto = document.getElementById(id);
+            const caja = ev.target.closest('.caja');
+            
+            // Verificar si el objeto coincide con la caja
+            if (
+                (id === "sol" || id === "platano") && caja.id === "amarillo" ||
+                (id === "manzana" || id === "fresa") && caja.id === "rojo" ||
+                (id === "mar" || id === "cielo") && caja.id === "azul"
+            ) {
+                caja.appendChild(objeto);
+                aciertos++;
+                mostrarResultado();
+                
+                // Efecto de celebración
+                objeto.style.animation = "celebrar 0.5s";
+                setTimeout(() => objeto.style.animation = "", 500);
+            } else {
+                alert("¡Ups! Ese no es el lugar correcto. Intenta otra vez.");
+                objeto.style.animation = "shake 0.5s";
+                setTimeout(() => objeto.style.animation = "", 500);
+            }
+        }
+        
+        function mostrarResultado() {
+            const resultado = document.getElementById("resultado");
+            resultado.innerHTML = `¡Llevas ${aciertos} aciertos! `;
+            
+            // Añadir estrellas por cada acierto
+            for (let i = 0; i < aciertos; i++) {
+                resultado.innerHTML += '<span class="estrella">★</span>';
+            }
+            
+            if (aciertos === 6) {
+                resultado.innerHTML += "<br>¡Felicidades! ¡Lo has logrado! 🎉";
+            }
+        }
+        
+        // Configurar eventos de arrastre para todos los objetos
+        document.querySelectorAll('.objeto').forEach(objeto => {
+            objeto.addEventListener('dragstart', ev => {
+                ev.dataTransfer.setData("text", ev.target.id);
+                ev.target.style.opacity = "0.5";
+            });
+            
+            objeto.addEventListener('dragend', ev => {
+                ev.target.style.opacity = "1";
+            });
+        });
+        
+        // Animaciones CSS
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes celebrar {
+                0% { transform: scale(1); }
+                50% { transform: scale(1.2) rotate(20deg); }
+                100% { transform: scale(1); }
+            }
+            
+            @keyframes shake {
+                0%, 100% { transform: translateX(0); }
+                20%, 60% { transform: translateX(-10px); }
+                40%, 80% { transform: translateX(10px); }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>

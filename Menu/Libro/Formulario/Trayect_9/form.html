@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Clasifica los Manteles</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background-image: url('fondo manteles.png'); /* Cambia esta ruta por tu imagen */
+      background-size: cover;
+      background-position: center;
+      min-height: 100vh;
+      padding-top: 70px; /* espacio para el header fijo */
+      padding-bottom: 50px; /* espacio para el footer fijo */
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 60px;
+      background-color: #0077b6;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      z-index: 1000;
+    }
+
+    footer {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 40px;
+      background-color: #0077b6;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.9rem;
+      z-index: 1000;
+    }
+
+    .container {
+      background: rgba(255, 255, 255, 0.95);
+      padding: 20px;
+      border-radius: 15px;
+      display: flex;
+      gap: 30px;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+      max-width: 1000px;
+      width: 95%;
+    }
+
+    .zona-arrastre, .zona-clasificacion {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+      flex: 1;
+    }
+
+    .zona-clasificacion {
+      flex-direction: row;
+      justify-content: space-between;
+    }
+
+    .titulo {
+      font-weight: bold;
+      margin-bottom: 10px;
+      color: #0077b6;
+    }
+
+    .item {
+      width: 80px;
+      height: 80px;
+      background-size: cover;
+      background-position: center;
+      border: 2px solid #888;
+      border-radius: 10px;
+      cursor: grab;
+    }
+
+    .item.flores {
+      background-image: url('mantel flores.png');
+    }
+
+    .item.blanco {
+      background-image: url('mantel blanco.png');
+    }
+
+    .zona-drop {
+      border: 2px dashed #888;
+      width: 150px;
+      min-height: 300px;
+      padding: 10px;
+      border-radius: 10px;
+      background-color: #f8f9fa;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .zona-drop.over {
+      border-color: #00b4d8;
+      background-color: #e3f2fd;
+    }
+
+    .preguntas {
+      width: 90%;
+      max-width: 1000px;
+      background: rgba(255, 255, 255, 0.9);
+      padding: 20px;
+      border-radius: 10px;
+      margin-top: 30px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    .preguntas p {
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+
+    .preguntas input {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Trayectoria 9: Cooperativa de manteles</h1>
+</header>
+
+<div class="container">
+  <!-- Zona de arrastre -->
+  <div class="zona-arrastre">
+    <div class="titulo">Manteles</div>
+    <div class="item flores" draggable="true" data-tipo="flores"></div>
+    <div class="item blanco" draggable="true" data-tipo="blanco"></div>
+    <div class="item flores" draggable="true" data-tipo="flores"></div>
+    <div class="item blanco" draggable="true" data-tipo="blanco"></div>
+  </div>
+
+  <!-- Zona de clasificación -->
+  <div class="zona-clasificacion">
+    <div>
+      <div class="titulo">Manteles con flores</div>
+      <div class="zona-drop" id="zona-flores" data-acepta="flores"></div>
+    </div>
+    <div>
+      <div class="titulo">Manteles blancos</div>
+      <div class="zona-drop" id="zona-blanco" data-acepta="blanco"></div>
+    </div>
+  </div>
+</div>
+
+<div class="preguntas">
+  <p>¿Cuántos manteles hay en total?</p>
+  <input type="text" placeholder="Escribe tu respuesta...">
+
+  <p>¿Cuántos manteles con flores hay?</p>
+  <input type="text" placeholder="Escribe tu respuesta...">
+
+  <p>¿Cuántos manteles blancos hay?</p>
+  <input type="text" placeholder="Escribe tu respuesta...">
+</div>
+
+<footer>
+  <p>© 2025 Actividad Educativa - Todos los derechos reservados</p>
+</footer>
+
+<script>
+  const items = document.querySelectorAll('.item');
+  const zonas = document.querySelectorAll('.zona-drop');
+  let draggedItem = null;
+
+  items.forEach(item => {
+    item.addEventListener('dragstart', () => {
+      draggedItem = item;
+    });
+
+    item.addEventListener('dragend', () => {
+      draggedItem = null;
+    });
+  });
+
+  zonas.forEach(zona => {
+    zona.addEventListener('dragover', e => {
+      e.preventDefault();
+      zona.classList.add('over');
+    });
+
+    zona.addEventListener('dragleave', () => {
+      zona.classList.remove('over');
+    });
+
+    zona.addEventListener('drop', e => {
+      e.preventDefault();
+      zona.classList.remove('over');
+      const tipoAceptado = zona.getAttribute('data-acepta');
+      const tipoItem = draggedItem.getAttribute('data-tipo');
+      if (tipoAceptado === tipoItem) {
+        zona.appendChild(draggedItem);
+      } else {
+        alert("Ese mantel no corresponde a esta zona.");
+      }
+    });
+  });
+</script>
+
+
+
+</body>
+</html>

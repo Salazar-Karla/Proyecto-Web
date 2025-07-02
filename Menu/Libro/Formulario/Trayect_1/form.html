@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Fichas en la caja</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-image: url('fichas (1).png'); /* Imagen de fondo */
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      margin: 0;
+      padding-top: 70px; /* Altura del header */
+      padding-bottom: 50px; /* Altura del footer */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 60px;
+      background-color: #333333;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+    }
+
+    footer {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 40px;
+      background-color: #333;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+    }
+
+
+    .container {
+      background-color: rgba(255, 255, 255, 0.95);
+      padding: 30px;
+      border-radius: 15px;
+      max-width: 1000px;
+      width: 100%;
+      box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    }
+
+
+    h2, p, .question {
+      text-align: center;
+    }
+
+    .zones {
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      margin-top: 20px;
+      flex-wrap: wrap;
+    }
+
+    .dropzone {
+      width: 200px;
+      height: 150px;
+      border: 2px dashed #ccc;
+      border-radius: 10px;
+      background-color: #f8f8f8;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+      padding: 10px;
+    }
+
+    .zone-label {
+      text-align: center;
+      font-weight: bold;
+      margin-top: 10px;
+    }
+
+    .token {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      margin: 3px;
+      text-align: center;
+      color: #fff;
+      font-size: 12px;
+      cursor: grab;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .blue {
+      background-color: #007BFF;
+    }
+
+    .red {
+      background-color: #E74C3C;
+    }
+
+    input[type="number"],
+    select,
+    textarea {
+      padding: 6px;
+      border-radius: 5px;
+      border: 1px solid #aaa;
+      margin-top: 8px;
+      width: 180px;
+    }
+
+    textarea {
+      width: 80%;
+      margin-top: 10px;
+      resize: vertical;
+    }
+
+    #conversionResult {
+      font-weight: bold;
+      color: #0a4;
+      margin-top: 10px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+<header>
+  <h1>Trayectoria 1: Otra vez 100</h1>
+</header>
+
+  <div class="container">
+    <!-- TU BLOQUE INSERTADO AQUÍ -->
+    <h2>2. Fichas en la caja</h2>
+    <p>Trabajen en parejas, cada uno encontrará fichas azules y rojas en su caja sorpresa. Saquen sus fichas y cuentenlas .Las fichas rojas valen 10 y las azules valen 1.</p>
+
+    <p><strong>Instrucción:</strong> Coloca las fichas según la cantidad que haya en tu caja sorpresa de fichas azules y rojas.</p>
+
+    <div class="zones">
+      <div>
+        <div id="azules" class="dropzone" ondrop="drop(event)" ondragover="allowDrop(event)">
+          <!-- Zona para fichas azules -->
+        </div>
+        <div class="zone-label">Fichas Azules</div>
+      </div>
+      <div>
+        <div id="rojas" class="dropzone" ondrop="drop(event)" ondragover="allowDrop(event)">
+          <!-- Zona para fichas rojas -->
+        </div>
+        <div class="zone-label">Fichas Rojas</div>
+      </div>
+    </div>
+
+    <div id="conversionResult"></div>
+
+    <hr style="margin: 30px 0;">
+
+    <div class="question">
+      <label>¿Qué números se forman con las fichas de cada quién?</label><br>
+      Persona 1: <input type="number"> &nbsp;
+      Persona 2: <input type="number">
+    </div>
+
+    <div class="question">
+      <label>De estos números, el mayor es</label>
+      <input type="number"> y el menor es <input type="number">
+    </div>
+
+    <div class="question">
+      <label>¿Qué números se forman con las nuevas fichas?</label><br>
+      Total después del intercambio: <input type="number"><br><br>
+      ¿Son los mismos que antes? <select>
+        <option value="">Selecciona</option>
+        <option value="sí">Sí</option>
+        <option value="no">No</option>
+      </select><br>
+      ¿Por qué? <br>
+      <textarea rows="3" placeholder="Explica tu razonamiento..."></textarea>
+    </div>
+
+    <div class="question">
+      <strong>Cierre:</strong><br>
+      ¿Cómo saben cuándo pueden intercambiar fichas azules por rojas?<br>
+      <textarea rows="3" placeholder="Escribe tu conclusión..."></textarea>
+    </div>
+  </div>
+<footer>
+  <p>© 2025 Actividad Educativa - Todos los derechos reservados</p>
+</footer>
+
+  <script>
+    // Generar fichas azules y rojas inicialmente
+    const blueZone = document.getElementById("azules");
+    const redZone = document.getElementById("rojas");
+
+    for (let i = 0; i < 10; i++) {
+      const token = document.createElement("div");
+      token.className = "token blue";
+      token.draggable = true;
+      token.id = "blue-" + i;
+      token.textContent = "1";
+      token.ondragstart = drag;
+      blueZone.appendChild(token);
+    }
+
+    for (let i = 0; i < 5; i++) {
+      const token = document.createElement("div");
+      token.className = "token red";
+      token.draggable = true;
+      token.id = "red-" + i;
+      token.textContent = "10";
+      token.ondragstart = drag;
+      redZone.appendChild(token);
+    }
+
+    function allowDrop(ev) {
+      ev.preventDefault();
+    }
+
+    function drag(ev) {
+      ev.dataTransfer.setData("text", ev.target.id);
+    }
+
+    function drop(ev) {
+      ev.preventDefault();
+      const data = ev.dataTransfer.getData("text");
+      const el = document.getElementById(data);
+      if (ev.target.classList.contains("dropzone")) {
+        if (!ev.target.contains(el)) {
+          ev.target.appendChild(el);
+        }
+      }
+      verificarConversion();
+    }
+
+    function verificarConversion() {
+      const azules = document.querySelectorAll("#azules .blue").length;
+      const conversionText = azules >= 10
+        ? "¡Puedes intercambiar 10 azules por una ficha roja!"
+        : "";
+      document.getElementById("conversionResult").innerText = conversionText;
+    }
+  </script>
+<div style="text-align: center; margin-top: 50px;">
+  <button onclick="goToPrevious()">← Anterior</button>
+  <button onclick="goToMenu()">🏠 Menú</button>
+  <button onclick="goToNext()">Siguiente →</button>
+</div>
+<div style="text-align: center; margin-top: 50px;">
+  <button onclick="goToPrevious()">← Anterior</button>
+  <button onclick="goToMenu()">🏠 Menú</button>
+  <button onclick="goToNext()">Siguiente →</button>
+</div>
+
+<script>
+  const current = X; // Cambia X por el número de esta trayectoria
+
+  function goToPrevious() {
+    if (current > 1) {
+      window.location.href = `Trayectoria ${current - 1}.html`;
+    } else {
+      alert("Esta es la primera trayectoria.");
+    }
+  }
+
+  function goToNext() {
+    if (current < 10) {
+      window.location.href = `Trayectoria ${current + 1}.html`;
+    } else {
+      alert("Esta es la última trayectoria.");
+    }
+  }
+
+  function goToMenu() {
+    window.location.href = 'menu.html'; // cambia si tu menú tiene otro nombre
+  }
+</script>
+
+
+</body>
+</html>
+

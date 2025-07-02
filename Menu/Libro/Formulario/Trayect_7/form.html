@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Drag and Drop - Verificación</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background-image: url('fonfo grag and drop.png'); /* Cambia por tu imagen */
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      margin: 0;
+      padding-top: 70px; /* Altura del header */
+      padding-bottom: 50px; /* Altura del footer */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 60px;
+      background-color: #333333;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+    }
+
+    footer {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 40px;
+      background-color: #333;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+    }
+
+    .container {
+      background-color: rgba(255, 255, 255, 0.95);
+      padding: 30px;
+      border-radius: 15px;
+      max-width: 1000px;
+      width: 100%;
+      box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    }
+
+    h2 {
+      text-align: center;
+    }
+
+    .content {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+    }
+
+    .image-box {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      width: 55%;
+      justify-content: center;
+    }
+
+    .image {
+      width: 180px;
+      text-align: center;
+    }
+
+    .image img {
+      width: 100%;
+      max-width: 150px;
+      border: 2px solid #ccc;
+      border-radius: 10px;
+    }
+
+    .dropzone {
+      border: 2px dashed #635dce;
+      border-radius: 10px;
+      padding: 10px;
+      min-height: 50px;
+      margin-top: 10px;
+      background-color: #f3f3f3;
+    }
+
+    .text-box {
+      width: 40%;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .draggable {
+      background-color: #e0f0ff;
+      padding: 10px;
+      border: 1px solid #007BFF;
+      border-radius: 8px;
+      cursor: grab;
+    }
+
+    #verifyBtn {
+      margin-top: 30px;
+      padding: 12px 24px;
+      font-size: 16px;
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+      background-color: #635dce;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    #result {
+      margin-top: 20px;
+      text-align: center;
+      font-size: 20px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Trayectoria 7: Figuras en cuerpos geométricos</h1>
+</header>
+
+<div class="container">
+  <h2>Arrastra la descripción y suéltala en el objeto correcto</h2>
+
+  <div class="content">
+    <div class="image-box">
+      <div class="image" data-answer="suave">
+        <img src="alfombra.png" alt="Alfombra">
+        <div class="dropzone" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+      </div>
+      <div class="image" data-answer="cono">
+        <img src="cono.png" alt="Cono">
+        <div class="dropzone" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+      </div>
+      <div class="image" data-answer="rueda">
+        <img src="balon.png" alt="Balón">
+        <div class="dropzone" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+      </div>
+      <div class="image" data-answer="duro">
+        <img src="madera.png" alt="Madera">
+        <div class="dropzone" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+      </div>
+    </div>
+
+    <div class="text-box">
+      <div class="draggable" draggable="true" ondragstart="drag(event)" id="suave">
+        Un objeto suave que pisas que rueda y gira.
+      </div>
+      <div class="draggable" draggable="true" ondragstart="drag(event)" id="cono">
+        Un objeto que comes y gira.
+      </div>
+      <div class="draggable" draggable="true" ondragstart="drag(event)" id="rueda">
+        Un objeto con el que juegas, gira y avanza.
+      </div>
+      <div class="draggable" draggable="true" ondragstart="drag(event)" id="duro">
+        Un objeto duro que si lo empujas gira.
+      </div>
+    </div>
+  </div>
+
+  <button id="verifyBtn" onclick="verifyAnswers()">Verificar respuestas</button>
+  <div id="result"></div>
+</div>
+
+<footer>
+  <p>© 2025 Actividad Educativa - Todos los derechos reservados</p>
+</footer>
+
+<script>
+  function allowDrop(ev) {
+    ev.preventDefault();
+  }
+
+  function drag(ev) {
+    ev.dataTransfer.setData("text", ev.target.id);
+  }
+
+  function drop(ev) {
+    ev.preventDefault();
+    const data = ev.dataTransfer.getData("text");
+    const dragged = document.getElementById(data);
+    const dropzone = ev.target.closest('.dropzone');
+    dropzone.innerHTML = "";
+    dropzone.appendChild(dragged);
+  }
+
+  function verifyAnswers() {
+    let correct = 0;
+    let total = 4;
+
+    const images = document.querySelectorAll('.image');
+    images.forEach(image => {
+      const expected = image.dataset.answer;
+      const dropzone = image.querySelector('.dropzone');
+      const dropped = dropzone.children[0];
+
+      if (expected && dropped && dropped.id === expected) {
+        correct++;
+      }
+    });
+
+    const result = document.getElementById("result");
+    if (correct === total) {
+      result.textContent = "¡Felicidades! Todas las respuestas son correctas ✅";
+      result.style.color = "green";
+    } else {
+      result.textContent = "Hay respuestas incorrectas ❌ Intenta de nuevo.";
+      result.style.color = "red";
+    }
+  }
+</script>
+
+
+</body>
+</html>
+

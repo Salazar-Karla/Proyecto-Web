@@ -1,0 +1,75 @@
+body {
+  background: linear-gradient(135deg, #e0f7e9 0%, #b2f7c1 100%);
+  font-family: 'Segoe UI', Arial, sans-serif;
+  margin: 0;
+  min-height: 100vh;
+}
+
+h1 {
+text-align: center;
+margin-top: 2.5rem;
+margin-bottom: 2rem;
+color: #111; /* Letras negras */
+font-size: 2.6rem;
+letter-spacing: 2px;
+background: none;
+-webkit-background-clip: initial;
+-webkit-text-fill-color: initial;
+background-clip: initial;
+text-shadow: 1px 2px 8px #b2f7c1;
+}
+
+main {
+  max-width: 900px;
+  margin: 3rem auto;
+  padding: 1rem 2rem;
+}
+
+.ayuda-section {
+  background-color: #ffffff;
+  border-left: 5px solid #66bb6a;
+  border-radius: 10px;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 2px 6px rgba(60, 120, 60, 0.10);
+  transition: transform 0.2s ease, box-shadow 0.2s;
+}
+
+.ayuda-section:hover {
+  transform: scale(1.01);
+  box-shadow: 0 4px 16px rgba(60, 120, 60, 0.13);
+}
+
+.ayuda-section h3 {
+  color: #2e7d32;
+  margin-bottom: 0.5rem;
+  font-size: 1.25rem;
+}
+
+.ayuda-section p {
+  font-size: 1rem;
+  line-height: 1.6;
+  margin: 0;
+  color: #222;
+}
+
+footer {
+  text-align: center;
+  margin-top: 4rem;
+  padding: 1rem;
+  font-size: 0.9rem;
+  color: #777;
+  background: linear-gradient(90deg, #388e3c 0%, #43a047 100%);
+  border-radius: 0 0 12px 12px;
+  box-shadow: 0 -2px 8px rgba(60, 120, 60, 0.08);
+  color: #fff;
+}
+
+@media (max-width: 600px) {
+  main {
+    padding: 1rem;
+  }
+  h1 {
+    font-size: 2rem;
+  }
+}

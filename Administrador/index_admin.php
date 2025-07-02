@@ -38,7 +38,7 @@ $_SESSION['ultima_actividad'] = time(); // Actualiza la actividad
                     <a href="#">Perfil</a>
                     <div class="dropdown-content">
                         <a href="#" onclick="mostrarPerfil()">Consultar Datos</a>
-                        <a href="#">Editar Datos</a>
+                        <a href="#" onclick="editarPerfil()">Editar Datos</a>
                     </div>
                 </div>
 
@@ -164,6 +164,14 @@ $_SESSION['ultima_actividad'] = time(); // Actualiza la actividad
     }
     function mostrarPerfil() {
         fetch('perfil.php')
+            .then(response => response.text())
+            .then(html => {
+                document.getElementById('contenido-dinamico').innerHTML = html;
+            });
+            cargarDatosAdmin();
+    }
+    function mostrarPerfil() {
+        fetch('perfil_editable.php')
             .then(response => response.text())
             .then(html => {
                 document.getElementById('contenido-dinamico').innerHTML = html;

@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cooperativa de Diseños de Manteles</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa, #e4e8f0);
+            text-align: center;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        h1 {
+            color: #5d6b82;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        
+        .instrucciones {
+            background-color: rgba(255,255,255,0.9);
+            border-radius: 15px;
+            padding: 15px;
+            margin: 0 auto 30px;
+            max-width: 700px;
+            font-size: 1.1em;
+            color: #5d6b82;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+        
+        .contenedor-juego {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin: 30px auto;
+            max-width: 1000px;
+            flex-wrap: wrap;
+        }
+        
+        .columna {
+            width: 350px;
+            min-height: 450px;
+            background-color: white;
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.08);
+        }
+        
+        .columna h2 {
+            color: white;
+            padding: 12px;
+            border-radius: 10px;
+            margin: -25px -25px 25px -25px;
+            font-weight: 600;
+        }
+        
+        #columna-materiales h2 { background: #8a9bb2; }
+        #columna-disenos h2 { background: #b2a3a8; }
+        
+        .item {
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 3px 6px rgba(0,0,0,0.05);
+            border: 2px solid transparent;
+        }
+        
+        .item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+        }
+        
+        .item.seleccionado {
+            border: 2px solid #5d6b82;
+            box-shadow: 0 0 0 3px rgba(93, 107, 130, 0.3);
+        }
+        
+        .item.correcto {
+            animation: celebrar 0.8s;
+            border: 2px solid #a3c4b2;
+            background-color: #f0f7f3;
+        }
+        
+        .item.incorrecto {
+            animation: shake 0.5s;
+            border: 2px solid #ffb3b3;
+            background-color: #fff0f0;
+        }
+        
+        .muestra-color {
+            width: 100%;
+            height: 80px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            box-shadow: inset 0 0 5px rgba(0,0,0,0.1);
+        }
+        
+        .descripcion {
+            font-weight: 500;
+            color: #5d6b82;
+        }
+        
+        #mensaje {
+            font-size: 1.3em;
+            padding: 15px 25px;
+            background-color: white;
+            border-radius: 50px;
+            display: inline-block;
+            margin: 20px auto;
+            color: #5d6b82;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+        
+        #reiniciar {
+            background-color: #8a9bb2;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            font-size: 1.1em;
+            border-radius: 50px;
+            cursor: pointer;
+            margin-top: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+            font-weight: 600;
+        }
+        
+        #reiniciar:hover {
+            background-color: #5d6b82;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+        }
+        
+        .equipo {
+            background-color: rgba(255,255,255,0.8);
+            padding: 10px 20px;
+            border-radius: 50px;
+            display: inline-block;
+            margin: 10px;
+            font-weight: 500;
+            box-shadow: 0 3px 6px rgba(0,0,0,0.05);
+        }
+        
+        @keyframes celebrar {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05) rotate(2deg); }
+            100% { transform: scale(1); }
+        }
+        
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            20%, 60% { transform: translateX(-5px); }
+            40%, 80% { transform: translateX(5px); }
+        }
+        
+        /* Patrones de diseño */
+        .rayas-horizontales {
+            background: repeating-linear-gradient(
+                to bottom,
+                var(--color1),
+                var(--color1) 10px,
+                var(--color2) 10px,
+                var(--color2) 20px
+            );
+        }
+        
+        .rayas-verticales {
+            background: repeating-linear-gradient(
+                to right,
+                var(--color1),
+                var(--color1) 10px,
+                var(--color2) 10px,
+                var(--color2) 20px
+            );
+        }
+        
+        .cuadros {
+            background: 
+                linear-gradient(var(--color1) 50%, transparent 50%),
+                linear-gradient(90deg, var(--color1) 50%, var(--color2) 50%);
+            background-size: 20px 20px;
+        }
+        
+        .puntos {
+            background: 
+                radial-gradient(circle at center, var(--color1) 20%, transparent 20%),
+                var(--color2);
+            background-size: 20px 20px;
+        }
+        
+        .degradado {
+            background: linear-gradient(135deg, var(--color1), var(--color2));
+        }
+    </style>
+</head>
+<body>
+    <h1>🧵 Cooperativa de Diseños de Manteles</h1>
+    
+    <div class="instrucciones">
+        Trabaja en equipo para asociar cada material con el diseño de mantel que mejor combine con sus colores
+    </div>
+    
+    <div class="equipo">Equipo: Diseñadores Textiles</div>
+    
+    <div class="contenedor-juego">
+        <div class="columna" id="columna-materiales">
+            <h2>Materiales Disponibles</h2>
+            <div class="item" data-valor="1" data-color1="#c9a8a9" data-color2="#e8d5d5">
+                <div class="muestra-color" style="--color1: #c9a8a9; --color2: #e8d5d5; background: linear-gradient(to right, #c9a8a9, #e8d5d5)"></div>
+                <div class="descripcion">Seda rosa vintage</div>
+            </div>
+            <div class="item" data-valor="2" data-color1="#a8b2c9" data-color2="#d5dae8">
+                <div class="muestra-color" style="--color1: #a8b2c9; --color2: #d5dae8; background: linear-gradient(to right, #a8b2c9, #d5dae8)"></div>
+                <div class="descripcion">Algodón azul pastel</div>
+            </div>
+            <div class="item" data-valor="3" data-color1="#a8c9b2" data-color2="#d5e8da">
+                <div class="muestra-color" style="--color1: #a8c9b2; --color2: #d5e8da; background: linear-gradient(to right, #a8c9b2, #d5e8da)"></div>
+                <div class="descripcion">Lino verde suave</div>
+            </div>
+            <div class="item" data-valor="4" data-color1="#c9c3a8" data-color2="#e8e4d5">
+                <div class="muestra-color" style="--color1: #c9c3a8; --color2: #e8e4d5; background: linear-gradient(to right, #c9c3a8, #e8e4d5)"></div>
+                <div class="descripcion">Yute dorado</div>
+            </div>
+        </div>
+        
+        <div class="columna" id="columna-disenos">
+            <h2>Diseños Propuestos</h2>
+            <div class="item" data-valor="1">
+                <div class="muestra-color rayas-horizontales" style="--color1: #c9a8a9; --color2: #e8d5d5"></div>
+                <div class="descripcion">Rayas horizontales suaves</div>
+            </div>
+            <div class="item" data-valor="3">
+                <div class="muestra-color cuadros" style="--color1: #a8c9b2; --color2: #d5e8da"></div>
+                <div class="descripcion">Cuadros frescos</div>
+            </div>
+            <div class="item" data-valor="4">
+                <div class="muestra-color degradado" style="--color1: #c9c3a8; --color2: #e8e4d5"></div>
+                <div class="descripcion">Degradado armónico</div>
+            </div>
+            <div class="item" data-valor="2">
+                <div class="muestra-color rayas-verticales" style="--color1: #a8b2c9; --color2: #d5dae8"></div>
+                <div class="descripcion">Rayas verticales relajadas</div>
+            </div>
+        </div>
+    </div>
+    
+    <div id="mensaje">Selecciona primero un material textil</div>
+    <button id="reiniciar">Reiniciar Proyecto</button>
+    
+    <script>
+        let seleccionMaterial = null;
+        let parejasCorrectas = 0;
+        const totalParejas = 4;
+        
+        document.querySelectorAll('#columna-materiales .item').forEach(item => {
+            item.addEventListener('click', () => {
+                // Deseleccionar cualquier item previo
+                document.querySelectorAll('.item.seleccionado').forEach(el => {
+                    el.classList.remove('seleccionado');
+                });
+                
+                // Seleccionar nuevo material
+                item.classList.add('seleccionado');
+                seleccionMaterial = item;
+                document.getElementById('mensaje').textContent = 'Ahora selecciona el diseño que combine';
+            });
+        });
+        
+        document.querySelectorAll('#columna-disenos .item').forEach(item => {
+            item.addEventListener('click', () => {
+                if (!seleccionMaterial) {
+                    document.getElementById('mensaje').textContent = 'Primero selecciona un material textil';
+                    return;
+                }
+                
+                // Verificar si la combinación es correcta
+                const valorMaterial = seleccionMaterial.getAttribute('data-valor');
+                const valorDiseno = item.getAttribute('data-valor');
+                
+                if (valorMaterial === valorDiseno) {
+                    // Aplicar los colores del material al diseño
+                    const color1 = seleccionMaterial.getAttribute('data-color1');
+                    const color2 = seleccionMaterial.getAttribute('data-color2');
+                    
+                    item.querySelector('.muestra-color').style.setProperty('--color1', color1);
+                    item.querySelector('.muestra-color').style.setProperty('--color2', color2);
+                    
+                    seleccionMaterial.classList.remove('seleccionado');
+                    seleccionMaterial.classList.add('correcto');
+                    item.classList.add('correcto');
+                    seleccionMaterial.style.cursor = 'default';
+                    item.style.cursor = 'default';
+                    
+                    parejasCorrectas++;
+                    actualizarMensaje();
+                    
+                    // Resetear selección
+                    seleccionMaterial = null;
+                    
+                    // Verificar si se completó todo
+                    if (parejasCorrectas === totalParejas) {
+                        document.getElementById('mensaje').innerHTML = 
+                            '¡Excelente trabajo equipo! 🎉<br>Han creado una colección armoniosa';
+                    }
+                } else {
+                    item.classList.add('incorrecto');
+                    setTimeout(() => {
+                        item.classList.remove('incorrecto');
+                    }, 500);
+                    document.getElementById('mensaje').textContent = 'Esta combinación no es óptima, intenta otra';
+                }
+            });
+        });
+        
+        function actualizarMensaje() {
+            const mensaje = document.getElementById('mensaje');
+            
+            if (parejasCorrectas === totalParejas) {
+                mensaje.style.color = '#a3c4b2';
+                mensaje.style.fontWeight = 'bold';
+            } else {
+                mensaje.innerHTML = `Progreso: ${parejasCorrectas} de ${totalParejas} diseños asignados`;
+                mensaje.style.color = '#5d6b82';
+            }
+        }
+        
+        document.getElementById('reiniciar').addEventListener('click', () => {
+            location.reload();
+        });
+    </script>
+</body>
+</html>

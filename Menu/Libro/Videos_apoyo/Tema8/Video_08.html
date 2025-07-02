@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Videos de Apoyo - Tema 8</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(255,255,255,0.97);
+            z-index: 1000;
+            box-shadow: 0 2px 8px #8888;
+        }
+        h1 {
+            text-align: center;
+            color: #2a5d84;
+            margin-top: 30px;
+        }
+        .contenido_c {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 10px 0;
+        }
+        .carrusel {
+            background: #fff;
+            border: 4px solid #2a5d84; 
+            border-radius: 14px;
+            box-shadow: 2px 2px 12px #bbb;
+            width: 770px;
+            padding: 20px;
+            text-align: center;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .boton-carrusel {
+            background: yellow;
+            color: black;
+            border: none;
+            border-radius: 10px;
+            padding: 12px 12px;
+            font-size: 1em;
+            cursor: pointer;
+            height: 100px;
+        }
+        .boton-carrusel:active {
+            background: #17405c;
+            height: 50px;
+        }
+        .titulov {
+            margin: 10px 0 5px 0;
+            font-weight: bold;
+            color: #444;
+        }
+        .video-center {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        video {
+            width: 100%;
+            border-radius: 5px;
+            border: 3px solid #bada55;
+        }
+        footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(255,255,255,0.97);
+            text-align: center;
+            padding: 12px 0 8px 0;
+            color: #2a5d84;
+            font-size: 1em;
+            box-shadow: 0 -2px 8px #8888;
+            z-index: 1000;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Videos de Apoyo - Tema 8</h1>
+    </header>
+    <br><br><br><br><br>
+    <div class="contenido_c">
+        <div class="carrusel" id="carrusel">
+            <button class="boton-carrusel" onclick="anteriorVideo()" title="Anterior" style="margin-right:10px;">&#8592;</button>
+            <div class="video-center">
+                <div class="titulov" id="titulo-video">8.1) Capacidad de agua en un vaso</div>
+                <video id="video" controls>
+                    <source src="v1.mp4" type="video/mp4">
+                    Error
+                </video>
+            </div>
+            <button class="boton-carrusel" onclick="siguienteVideo()" title="Siguiente" style="margin-left:10px;">&#8594;</button>
+        </div>
+    </div>
+    <footer>
+        &copy; 2025 Todos los derechos reservados
+    </footer>
+    <script>
+        const videos = [
+            {
+                titulo: "8.1) Capacidad de agua en un vaso",
+                src: "v1.mp4"
+            }
+        ];
+        let actual=0;
+
+        function mostrarVideo(idx) {
+            document.getElementById('titulo-video').textContent = videos[idx].titulo;
+            const video=document.getElementById('video');
+            video.pause();
+            video.querySelector('source').src=videos[idx].src;
+            video.load();
+        }
+
+        function anteriorVideo() {
+            actual=(actual-1 + videos.length) % videos.length;
+            mostrarVideo(actual);
+        }
+
+        function siguienteVideo() {
+            actual =(actual+1) % videos.length;
+            mostrarVideo(actual);
+        }
+    </script>
+</body>
+</html>

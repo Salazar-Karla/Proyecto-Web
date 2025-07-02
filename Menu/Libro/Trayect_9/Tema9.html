@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mas de capacidad</title>
+  <style>
+    body {
+      font-family: 'Comic Sans MS', cursive, sans-serif;
+      background: linear-gradient(to right, yellow, #ede7f6);
+      margin: 0;
+      padding: 20px;
+      color: black;
+    }
+
+    header {
+      background-color: orange;
+      color: black;
+      padding: 20px;
+      text-align: center;
+      border-radius: 12px;
+    }
+
+    .actividad {
+      background-color: orange
+      border: 3px dashed red;
+      border-radius: 12px;
+      padding: 20px;
+      margin: 20px 0;
+      box-shadow: 4px 4px 8px rgba(0,0,0,0.1);
+    }
+
+    h2 {
+      color: black;
+      margin-top: 20px;
+    }
+
+    p {
+      line-height: 1.6;
+      margin-bottom: 15px;
+    }
+
+    ul {
+      list-style-type: square;
+      padding-left: 20px;
+      margin-bottom: 15px;
+    }
+
+    .instruccion {
+      font-weight: bold;
+      color: rgb(97, 18, 176);
+      margin-top: 10px;
+    }
+
+    .introduccion {
+      background-color: goldenrod;
+      border: 2px solid white;
+      border-radius: 10px;
+      padding: 20px;
+      margin-top: 25px;
+     
+    }
+
+    input[type="text"], select {
+      display: block;
+      margin: 5px 0 15px;
+      padding: 5px;
+      width: 100%;
+      max-width: 400px;
+    }
+
+    button {
+      background-color: magenta;
+      color: black;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    .resultado {
+      font-weight: bold;
+      margin-top: 10px;
+      white-space: pre-wrap;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>🔷 ¡Aprendamos de los manteles! 🔷</h1>
+    <p>📐 Manteles para realizar actividades.</p>
+  </header>
++
+  <section class="introduccion">
+    <h2>🔺 ¿Que es un mantel?</h2>
+    <p>📏 Los <strong>manteles</strong> son piezas de tela, generalmente rectangular o cuadrada,
+         que se coloca sobre una mesa para protegerla y embellecerla, especialmente durante las comidas..</p>
+    <p>👉 Ejemplos de uso:</p>
+    <ul>
+      <li>🔶 <strong>protección de mesas:</strong>cantidad de galletas que hay en una caja.</li>
+      <li>🔷 <strong>decoración:</strong> cantidad de pasos que das para llegar a la escuela.</li>
+      <li>🔺 <strong>reutilización:</strong>cantidad de agua qeu bebes en un vaso.</li>
+    </ul>
+  </section>
+
+  <section class="introduccion">
+    <h2>🧊 ¿Qué es un diseño?</h2>
+    <p>📦 El <strong>diseño</strong> es un plan o esquema que se crea para la construcción o ejecución de algo,
+         ya sea un objeto, un edificio, un sistema, o incluso un concepto.</p>
+    <p>👉 Ejemplos de diseño:</p>
+    <ul>
+      <li>🔶 <strong>dibujo:</strong>Una representación visual de cómo se verá o funcionará algo antes de su creación.</li>
+      <li>🔷 <strong>construcción:</strong>Una estructura de pasos y elementos necesarios para llevar a cabo algo. </li>
+      <li>🔺 <strong>estilo de un objeto:</strong>La apariencia visual y las características de diseño de un producto. </li>
+    </ul>
+  </section>
+
+  <section class="actividad">
+    <h2>✏️ Actividad 1: Elige la opcion correcta</h2>
+    <p class="instruccion">📊 Selcciona el tipo de diseño correcto</p>
+    <form id="actividad1">
+      <label>🟪 ¿Cual de las siguientes opciones es un tipo de diseño?
+        <select name="diseño">
+          <option value="">Selecciona</option>
+          <option value="cartón">cartón</option>
+          <option value="construcción">construcción</option>
+          <option value="Ninguno">Ninguno de los anteriores</option>
+        </select>
+      </label>
+
+      <label>📦 ¿Cuál de los siguientes incisos muestra un ejemplo de uso de los manteles?
+        <select name="manteles">
+          <option value="">Selecciona</option>
+          <option value="cobijas">como cobijas</option>
+          <option value="trapos">como trapos</option>
+          <option value="estilo">como estilo</option>
+        </select>
+      </label>
+
+      <button type="button" onclick="calificarActividad1()">Calificar</button>
+      <p id="resultado1" class="resultado"></p>
+    </form>
+  </section>
+
+  <script>
+    function calificarActividad1() {
+      const respuestas = document.forms["actividad1"];
+      const correctas = {
+        diseño: "construcción",
+        manteles: "estilo",
+      };
+
+      let puntuacion = 0;
+      let resultado = "";
+
+      for (const campo in correctas) {
+        const valor = respuestas[campo].value;
+        if (valor === correctas[campo]) {
+          puntuacion++;
+        } else {
+          resultado += `❌ En la pregunta "${campo}", la respuesta correcta era "${correctas[campo]}".\n\n`;
+        }
+      }
+
+      resultado = `✅ ¡Obtuviste ${puntuacion} de 2 respuestas correctas!\n\n` + resultado;
+      document.getElementById("resultado1").innerText = resultado;
+    }
+  </script>
+</body>
+</html>
+
