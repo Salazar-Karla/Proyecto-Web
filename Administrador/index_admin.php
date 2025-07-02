@@ -1,3 +1,20 @@
+
+<?php
+session_start();
+
+$inactividad_maxima = 300; // 5 minutos (300 segundos)
+
+if (isset($_SESSION['ultima_actividad']) && (time() - $_SESSION['ultima_actividad']) > $inactividad_maxima) {
+    session_unset();
+    session_destroy();
+    header("Location: ../cerrar_sesion.php?expirada=1");
+    exit();
+}
+
+$_SESSION['ultima_actividad'] = time(); // Actualiza la actividad
+
+?>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -20,8 +37,7 @@
                 <div class="dropdown">
                     <a href="#">Perfil</a>
                     <div class="dropdown-content">
-                        <a href="#" onclick="mostrarPerfil()">Consultar Datos</a>
-                        <a href="#" onclick="editarPerfil()">Editar Datos</a>
+                        <a href="#" onclick="mostrarMiPerfil()">Consultar y Editar Datos</a>
                     </div>
                 </div>
 
@@ -42,8 +58,10 @@
                     <div class="dropdown-content">
                         <a href="#">Manual de Usuario</a>
                         <a href="#">Búsqueda</a>
+
                     </div>
                 </div>
+                <a href="../cerrar_sesion.php">Cerrar sesión</a>
             </div>
         </nav>
     </header>
@@ -145,43 +163,116 @@
                 document.getElementById('contenido-dinamico').innerHTML = html;
             });
     }
-    function mostrarPerfil() {
-        fetch('perfil.php')
-            .then(response => response.text())
-            .then(html => {
-                document.getElementById('contenido-dinamico').innerHTML = html;
-            });
-            cargarDatosAdmin();
-    }
-    function mostrarPerfil() {
-        fetch('perfil_editable.php')
-            .then(response => response.text())
-            .then(html => {
-                document.getElementById('contenido-dinamico').innerHTML = html;
-            });
-            cargarDatosAdmin();
-    }
+   function mostrarMiPerfil() {
+    fetch('formularios/ver_perfil.php')
+        .then(response => response.text())
+        .then(html => {
+            document.getElementById('contenido-dinamico').innerHTML = html;
+        });
+}
+function mostrarPrincipal() {
+    fetch('formularios/ver_admin_cards.php')
+        .then(response => response.text())
+        .then(html => {
+            document.getElementById('contenido-dinamico').innerHTML = html;
+        });
+}
+
     function mostrarAgregarAlumno() {
         fetch('formularios/agregar_alumno.php')
             .then(response => response.text())
             .then(html => {
                 document.getElementById('contenido-dinamico').innerHTML = html;
             });
+        cargarGrupos();
     }
+function mostrarAgregarAlumno() {
+    fetch('formularios/agregar_alumno.php')
+        .then(response => response.text())
+        .then(html => {
+            document.getElementById('contenido-dinamico').innerHTML = html;
+            cargarGrupos(); // Cargar los grupos al select
+
+            // 💡 Aquí mismo registramos el evento del formulario
+            const form = document.getElementById('formAlumno');
+            form.addEventListener('submit', function (event) {
+                event.preventDefault();
+
+                const formData = new FormData(form);
+
+                fetch('formularios/insertar_alumno.php', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.success) {
+                        alert("Alumno registrado exitosamente");
+                        form.reset();
+                    } else {
+                        alert("Error: " + data.message);
+                    }
+                })
+                .catch(err => console.error("Error en el registro:", err));
+            });
+        });
+}
 
     function mostrarAgregarProfesor() {
         fetch('formularios/agregar_profesor.php')
             .then(response => response.text())
             .then(html => {
                 document.getElementById('contenido-dinamico').innerHTML = html;
+                const form = document.getElementById('formAlumno');
+                form.addEventListener('submit', function (event) {
+                    event.preventDefault();
+
+                    const formData = new FormData(form);
+
+                    fetch('formularios/insertar_profesor.php', {
+                        method: 'POST',
+                        body: formData
+                    })
+                    .then(res => res.json())
+                    .then(data => {
+                        if (data.success) {
+                            alert("Profesor registrado exitosamente");
+                            form.reset();
+                        } else {
+                            alert("Error: " + data.message);
+                        }
+                    })
+                    .catch(err => console.error("Error en el registro:", err));
+                });
             });
     }
 
     function mostrarAgregarAdministrador() {
-        fetch('formularios/agregar_admin.php')
+        fetch('formularios/agregar_administrador.php')
             .then(response => response.text())
             .then(html => {
                 document.getElementById('contenido-dinamico').innerHTML = html;
+                const form = document.getElementById('formAlumno');
+                form.addEventListener('submit', function (event) {
+                    event.preventDefault();
+
+                    const formData = new FormData(form);
+
+                    fetch('formularios/insertar_administrador.php', {
+                        method: 'POST',
+                        body: formData
+                    })
+                    .then(res => res.json())
+                    .then(data => {
+                        if (data.success) {
+                            alert("Administrador registrado exitosamente");
+                            form.reset();
+                        } else {
+                            alert("Error: " + data.message);
+                        }
+                    })
+                    .catch(err => console.error("Error en el registro:", err));
+                });
             });
     }
      function mostrarAgregarGrupo() {
@@ -189,6 +280,30 @@
             .then(response => response.text())
             .then(html => {
                 document.getElementById('contenido-dinamico').innerHTML = html;
+                cargarBloques(); // Cargar los grupos al select
+                cargarProfesores(); // Cargar los grupos al select
+                // 💡 Aquí mismo registramos el evento del formulario
+                const form = document.getElementById('formAlumno');
+                form.addEventListener('submit', function (event) {
+                    event.preventDefault();
+
+                    const formData = new FormData(form);
+
+                    fetch('formularios/insertar_grupo_bloque.php', {
+                        method: 'POST',
+                        body: formData
+                    })
+                    .then(res => res.json())
+                    .then(data => {
+                        if (data.success) {
+                            alert("Grupo registrado exitosamente");
+                            form.reset();
+                        } else {
+                            alert("Error: " + data.message);
+                        }
+                    })
+                    .catch(err => console.error("Error en el registro:", err));
+                });
             });
     }
 
@@ -199,24 +314,6 @@
                 document.getElementById('contenido-dinamico').innerHTML = html;
             })
             .catch(error => console.error('Error al cargar ver_alumnos.php:', error));
-    }
-
-    function mostrarPrincipal() {
-        document.getElementById('contenido-dinamico').innerHTML = `
-            <section class="bienvenida">
-                <h2>¡Bienvenido al Panel del Administrador!👋</h2>
-                <p>Te damos la más cordial bienvenida a la plataforma de apoyo a la educación primaria. Desde este panel podrás:</p>
-                <p>🔸Administrar completamente el sistema.</p>
-                <p>🔸Generar reportes detallados.</p>
-                <p>🔸Agregar y gestionar usuarios como alumnos y profesores.</p>
-                <p>🔸Crear recursos académicos que estarán disponibles para los docentes.</p>
-                <p>Además, cuentas con una sección de ayuda guiada para apoyarte en cada paso, asegurando un uso eficiente y sencillo del sistema.</p>
-                <p>¡Gracias por formar parte del equipo de administración! Tu labor es clave para el buen funcionamiento de la plataforma educativa.</p>
-                <div class="imagen-final">
-                    <img src="../Imagenes/admin.png" alt="Administrador" />
-                </div>
-            </section>
-        `;
     }
 
     function mostrarContacto() {
