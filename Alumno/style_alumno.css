@@ -333,3 +333,9 @@ footer {
     border-radius: 12px;
 }
 
+.titulo-seccion {
+    text-align: center;
+    color: #7b1fa2;
+    margin-top: 25px;
+    font-size: 1.8em;
+}

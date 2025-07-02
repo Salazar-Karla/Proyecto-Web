@@ -20,8 +20,8 @@
                 <div class="dropdown">
                     <a href="#">Perfil</a>
                     <div class="dropdown-content">
-                        <a href="#">Consultar Datos</a>
-                        <a href="#">Editar Datos</a>
+                        <a href="#" onclick="mostrarPerfil()">Consultar Datos</a>
+                        <a href="#" onclick="editarPerfil()">Editar Datos</a>
                     </div>
                 </div>
 
@@ -61,7 +61,83 @@
                 document.getElementById('contenido-dinamico').innerHTML = html;
             });
     }
+    function cargarGrupos() {
+    fetch('formularios/obtener_grupo.php')
+        .then(response => response.json())
+        .then(data => {
+            const select = document.getElementById('Grupo');
+            if (!select) return; // Evita error si no se encuentra el select
+            select.innerHTML = '<option value="">Seleccione un grupo</option>';
+            data.forEach(grupo => {
+                const option = document.createElement('option');
+                option.value = grupo.id_grupo;
+                option.textContent = "Grupo " + grupo.id_grupo;
+                select.appendChild(option);
+            });
+        })
+        .catch(err => console.error("Error al cargar grupos:", err));
+    }
+    function cargarDatosAdmin() {
+    fetch('formularios/obtener_datosAdmin.php')
+        .then(response => response.json())
+        .then(data => {
+            const id= <?php echo $_SESSION['id_usuario'];?> ;
+            console.log(id);
+            data.forEach(admin => {
+                console.log(admin.nombre);
+                if (id== admin.id_usuario){
+                    
+                    const div = document.getElementById('Nombre');
+                    div.textContent= admin.nombre;
+                    const div1= document.getElementById('ap_Pat');
+                    div1.textContent= admin.ap_Pat;
+                    const div2 = document.getElementById('ap_Mat');
+                    div2.textContent= admin.ap_Mat;
+                    const div3 = document.getElementById('Ce');
+                    div3.textContent= admin.correo;
+                    const div4 = document.getElementById('Telefono');
+                    div4.textContent= admin.numero;
+                    const div5 = document.getElementById('El_otro');
+                    div5.textContent= admin.telefono;
 
+
+                }
+            });
+        })
+        .catch(err => console.error("Error al cargar grupos:", err));
+    }
+    function cargarBloques() {
+    fetch('formularios/obtener_bloque.php')
+        .then(response => response.json())
+        .then(data => {
+            const select = document.getElementById('Bloques');
+            if (!select) return; // Evita error si no se encuentra el select
+            select.innerHTML = '<option value="">Seleccione al menos un bloque</option>';
+            data.forEach(bloque => {
+                const option = document.createElement('option');
+                option.value = bloque.id_bloque;
+                option.textContent = bloque.nombre_bloque;
+                select.appendChild(option);
+            });
+        })
+        .catch(err => console.error("Error al cargar bloques:", err));
+    }
+    function cargarProfesores() {
+    fetch('formularios/obtener_profesores.php')
+        .then(response => response.json())
+        .then(data => {
+            const select = document.getElementById('Profesor');
+            if (!select) return; // Evita error si no se encuentra el select
+            select.innerHTML = '<option value="">Seleccione un profesor</option>';
+            data.forEach(profesor => {
+                const option = document.createElement('option');
+                option.value = profesor.id_profesor;
+                option.textContent = profesor.nombre+" "+profesor.ap_Pat+" "+profesor.ap_Mat;
+                select.appendChild(option);
+            });
+        })
+        .catch(err => console.error("Error al cargar grupos:", err));
+    }
     function mostrarAgregarUsuario() {
         fetch('agregar_usuario.php')
             .then(response => response.text())
@@ -69,7 +145,22 @@
                 document.getElementById('contenido-dinamico').innerHTML = html;
             });
     }
-
+    function mostrarPerfil() {
+        fetch('perfil.php')
+            .then(response => response.text())
+            .then(html => {
+                document.getElementById('contenido-dinamico').innerHTML = html;
+            });
+            cargarDatosAdmin();
+    }
+    function mostrarPerfil() {
+        fetch('perfil_editable.php')
+            .then(response => response.text())
+            .then(html => {
+                document.getElementById('contenido-dinamico').innerHTML = html;
+            });
+            cargarDatosAdmin();
+    }
     function mostrarAgregarAlumno() {
         fetch('formularios/agregar_alumno.php')
             .then(response => response.text())

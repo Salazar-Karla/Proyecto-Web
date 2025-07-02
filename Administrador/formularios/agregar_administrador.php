@@ -1,44 +1,47 @@
 <h2 class="titulo-seccion">Nuevo Administrador</h2>
-<div>
-	<form id="formAlumno">
+<section class="formulario-container">
+	<form id="formAlumno" class="formulario">
 		<fieldset>
 			<legend>Datos del Administrador</legend>
 
-			<label for="Nombre">Nombre</label>
-			<input type="text" name="Nombre" required>
+			<div class="campo fila">
+			    <div class="grupo">
+			        <label for="Nombre">Nombre</label>
+			        <input type="text" name="Nombre" id="Nombre" required>
+			    </div>
+			    <div class="grupo">
+			        <label for="ap_Pat">Apellido Paterno</label>
+			        <input type="text" name="ap_Pat" id="ap_Pat" required>
+			    </div>
+			    <div class="grupo">
+			        <label for="ap_Mat">Apellido Materno</label>
+			        <input type="text" name="ap_Mat" id="ap_Mat" required>
+			    </div>
+			</div>
 
-			<label for="ap_Pat">Apellido Paterno</label>
-			<input type="text" name="ap_Pat" required>
+			<div class="campo">
+				<label for="correo">Correo electrónico</label>
+				<input type="email" name="correo" id="correo" required>
+			</div>
 
-			<label for="ap_Mat">Apellido Materno</label>
-			<input type="text" name="ap_Mat" required>
-			<br>
+			<div class="campo">
+				<label for="contrasena">Contraseña</label>
+				<input type="password" name="contrasena" id="contrasena" required>
+			</div>
 
-			<label for="correo">Correo electrónico</label>
-			<input type="email" name="correo" required>
+			<div class="campo">
+				<label for="numero">Número de teléfono</label>
+				<input type="text" name="numero" id="numero" pattern="[0-9]+" required>
+			</div>
 
-			<label for="contrasena">Contraseña</label>
-			<input type="password" name="contrasena" required>
-			<br>
+			<div class="campo">
+				<label for="telefono">Número de teléfono alternativo</label>
+				<input type="text" name="telefono" id="telefono" pattern="[0-9]+" required>
+			</div>
 
-			<label for="numero">Número de teléfono</label>
-			<input type="text" name="numero" pattern="[0-9]+" required>
-			<br>
-			<label for="telefono">Número de teléfono</label>
-			<input type="text" name="telefono" pattern="[0-9]+" required>
-			
-			<br><br>
-
-			<button type="submit" style="
-				background-color: #007BFF;
-				color: white;
-				padding: 10px 20px;
-				border: none;
-				border-radius: 5px;
-				cursor: pointer;
-			">Registrar Administrador</button>
-
+			<div class="boton-container">
+				<button type="submit" class="btn-formulario">Registrar Administrador</button>
+			</div>
 		</fieldset>
 	</form>
-</div>
-
+</section>
