@@ -1,59 +1,75 @@
+<?php
+session_start();
+
+$inactividad_maxima = 300; // 5 minutos (300 segundos)
+
+if (isset($_SESSION['ultima_actividad']) && (time() - $_SESSION['ultima_actividad']) > $inactividad_maxima) {
+    session_unset();
+    session_destroy();
+    header("Location: ../cerrar_sesion.php?expirada=1");
+    exit();
+}
+
+$_SESSION['ultima_actividad'] = time(); // Actualiza la actividad
+
+?>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <title>Apoyo a la educación primaria</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style_profesor.css">
 </head>
 <body>
 
     <header>
         <div class="logo-container">
-            <img src="../Imagenes/Logo.png" alt="Logo" class="logo">
+            <img src="../Imagenes/LogoT.png" alt="Logo" class="logo">
             <h1>Apoyo a la educación primaria</h1>
             <img src="../Imagenes/tiburon.png" alt="Tiburón" class="tiburon-header">
         </div>
         <nav>
-            <a href="#" onclick="mostrarContacto()">Contáctanos</a>
-            <a href="#" onclick="mostrarAyuda()">¿Cómo ingresar a la plataforma?</a>
+            <div class="nav-center">
+                <a href="#" onclick="mostrarPrincipal()">Principal</a>
+
+                <div class="dropdown">
+                    <a href="#">Perfil</a>
+                    <div class="dropdown-content">
+                        <a href="formularios/ver_profe_cards.php">Consultar Datos</a>
+                        <a href="formularios/ver_perfil.php">Ver Perfil</a>
+                        <a href="#">Ver Grupos</a>
+                        <a href="#">Recuperar Contraseña</a>
+                    </div>
+                </div>
+
+                <div class="dropdown">
+                    <a href="#">Recursos</a>
+                    <div class="dropdown-content">
+                        <a href="#">Crear</a>
+                        <a href="#">Consultar</a>
+                        <a href="#">Editar</a>
+                    </div>
+                </div>
+
+                <a href="#">Calificaciones</a>
+
+                <div class="dropdown">
+                    <a href="#">Ayuda</a>
+                    <div class="dropdown-content">
+                        <a href="#">Manual de Usuario</a>
+                        <a href="#">Búsqueda</a>
+                    </div>
+                </div>
+                <a href="../cerrar_sesion.php" class="btn-cerrar-sesion"> Cerrar sesión</a>
+            </div>
         </nav>
     </header>
 
     <main>
-        <!-- Panel de bienvenida -->
-        <div class="bienvenida">
-            <h2>¡Bienvenido!👋</h2>
-            <p>Esta es una plataforma divertida y educativa creada especialmente para ti 😊. Aquí podrás ver recursos, aprender y realizar tus exámenes de una forma fácil y segura. ¡Disfruta aprendiendo!🦖⭐</p>
-            <div class="bienvenida-img-container">
-                <img src="../Imagenes/niños.jpg" alt="Niños felices">
-            </div>
-        </div>
 
-
-
-    <script>
-        function mostrarContacto() {
-            document.getElementById("modalContacto").style.display = "block";
-        }
-        function cerrarContacto() {
-            document.getElementById("modalContacto").style.display = "none";
-        }
-
-        function mostrarAyuda() {
-            document.getElementById("modalAyuda").style.display = "block";
-        }
-        function cerrarAyuda() {
-            document.getElementById("modalAyuda").style.display = "none";
-        }
-
-        window.onclick = function(event) {
-            const modalContacto = document.getElementById("modalContacto");
-            const modalAyuda = document.getElementById("modalAyuda");
-            if (event.target === modalContacto) modalContacto.style.display = "none";
-            if (event.target === modalAyuda) modalAyuda.style.display = "none";
-        }
-    </script>
+        <div id="contenido-dinamico"></div>
+    </main>
 
 </body>
 </html>
-
