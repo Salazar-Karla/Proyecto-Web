@@ -1,4 +1,5 @@
 <?php
+
 session_start();
 
 $inactividad_maxima = 300; // 5 minutos (300 segundos)
@@ -44,9 +45,9 @@ $_SESSION['ultima_actividad'] = time(); // Actualiza la actividad
                 <div class="dropdown">
                     <a href="#">Bloque</a>
                     <div class="dropdown-content">
-                        <a href="#">1er Bloque</a>
-                        <a href="#">2do Bloque</a>
-                        <a href="#">3er Bloque</a>
+                        <a href="#" onclick="mostrarBloque(1)">1er Bloque</a>
+                        <a href="#" onclick="mostrarBloque(2)">2do Bloque</a>
+                        <a href="#" onclick="mostrarBloque(3)">3er Bloque</a>
                     </div>
                 </div>
 
@@ -66,8 +67,8 @@ $_SESSION['ultima_actividad'] = time(); // Actualiza la actividad
 
     <main>
 
-        <div id="contenido-dinamico"></div>
-    </main>
+        <div id="contenido-dinamico">
+    
             <section class="bienvenida">
                 <h2>¡Bienvenido al Panel de Alumno!👋</h2>
                 <p>Te damos la más cordial bienvenida a la plataforma de apoyo a la educación primaria. Desde este panel podrás:</p>
@@ -81,7 +82,35 @@ $_SESSION['ultima_actividad'] = time(); // Actualiza la actividad
                     <img src="../Imagenes/alum.jpg" alt="Alumno" />
                 </div>
             </section>
-        
+        </div>
+    </main>
+        <script>
+            function mostrarPrincipal() {
+                document.getElementById('contenido-dinamico').innerHTML ="";
+                document.getElementById('contenido-dinamico').innerHTML = `
+                    <section class="bienvenida">
+                        <h2>¡Bienvenido al Panel de Alumno!👋</h2>
+                        <p>Te damos la más cordial bienvenida a la plataforma de apoyo a la educación primaria. Desde este panel podrás:</p>
+                        <p>🔸Revisar los contenidos que suba tu profesor.</p>
+                        <p>🔸Revisar tus calificaciones en tiempo real.</p>
+                        <p>🔸Realizar y repasar los temas que te enseñen en clases.</p>
+                        <p>🔸Realizar formularios y examenes que te asignen.</p>
+                        <p>Además, cuentas con una sección de ayuda guiada para apoyarte en cada paso, asegurando un uso eficiente y sencillo del sistema.</p>
+                        <p>¡Gracias por formar parte del alumnado! Intentaremos brindarte el mejor funcionamiento de la plataforma educativa para tu crecimiento academico.</p>
+                        <div class="imagen-final">
+                            <img src="../Imagenes/alum.jpg" alt="Alumno" />
+                        </div>
+                    </section>
+                `;
+            }
+            function mostrarBloque(n) {
+                fetch(`HubBloque.php?id=${n}`)
+            .then(response => response.text())
+            .then(html => {
+                document.getElementById('contenido-dinamico').innerHTML = html;
+            });
+            }
+        </script>
 
 </body>
 </html>
