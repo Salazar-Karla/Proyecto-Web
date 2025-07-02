@@ -120,13 +120,11 @@ $_SESSION['ultima_actividad'] = time(); // Actualiza la actividad
                             item=>{
                                     const li=document.createElement('li');
                                     const button=document.createElement('button');
-                                    button.onclick="";
+                                    button.onclick=()=>generarExamen(item.id_examen);
                                     button.type="button";
                                     button.textContent=item.nombreExamen;
                                     li.appendChild(button);
                                     lista.appendChild(li);
-                                    console.log("item.nombreExamen");
-                                
                             });
                     })
                     .catch(error=> {
@@ -140,7 +138,85 @@ $_SESSION['ultima_actividad'] = time(); // Actualiza la actividad
             });
             mostrarListaExamenes(n);
             }
+            function generarExamen(n){
+                fetch('Examen.php')
+                    .then(response => response.text())
+                        .then(html => {
+                            document.getElementById('contenido-dinamico').innerHTML = html;
+                        });
+                obtener_Preguntas(n)
+            }
+            function obtener_Preguntas(n) {
+                fetch(`Consultas_Base_Datos/obtener_preguntas_por_examen.php?id=${n}`)
+                .then(response=>response.json())
+                .then(data=>{
+                    if (data.error) {
+                        alert(data.error);
+                    }
+                    else{
+                        const preguntasAleatorias = aleatorizar_Preguntas(data.preguntas);
+                        console.log(data.examen.cantidad_preguntas);
+                        mostrar_Preguntas(preguntasAleatorias,data.examen.cantidad_preguntas);
+                    }
 
+                })
+                .catch(error => {
+                   console.error("Error al obtener el examen:", error);
+                });
+            }
+            function aleatorizar_Preguntas(preguntas) {
+                preguntas = preguntas.sort(() => Math.random() - 0.5);
+                return preguntas.map(p => {
+                    const opciones = [
+                        { texto: p.opcionA, id: 1 },
+                        { texto: p.opcionB, id: 2 },
+                        { texto: p.opcionC, id: 3 },
+                        { texto: p.opcionD, id: 4 },
+                    ];
+
+                    const opciones_aleatorias = opciones.sort(() => Math.random() - 0.5);
+
+                    return {
+                        id: p.id_pregunta,
+                        enunciado: p.pregunta,
+                        opciones: opciones_aleatorias
+                    };
+                });
+
+            }
+            function mostrar_Preguntas(preguntas,size) {
+                const formulario = document.getElementById("Cuestionario");
+
+                preguntas.forEach((pregunta, index) => {
+                    if (index<size) {
+                        const fieldset = document.createElement("fieldset");
+                    const legend = document.createElement("legend");
+                    legend.textContent = `Pregunta ${index + 1}: ${pregunta.enunciado}`;
+                    fieldset.appendChild(legend);
+
+                    pregunta.opciones.forEach(opcion => {
+                        const label = document.createElement("label");
+                        const radio = document.createElement("input");
+                        radio.type = "radio";
+                        radio.name = `pregunta_${pregunta.id}`;
+                        radio.value = opcion.id;
+                        radio.id = `respuesta_${pregunta.id}_${opcion.id}`;
+
+                        label.appendChild(radio);
+                        label.appendChild(document.createTextNode(" " + opcion.texto));
+                        fieldset.appendChild(label);
+                        fieldset.appendChild(document.createElement("br"));
+                    });
+
+                    formulario.appendChild(fieldset);
+                    }
+                    
+                });
+                const boton = document.createElement("button");
+                boton.type = "submit";
+                boton.textContent = "Enviar respuestas";
+                formulario.appendChild(boton);
+            }
         </script>
 
 </body>
