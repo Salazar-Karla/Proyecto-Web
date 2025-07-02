@@ -1,6 +1,6 @@
 <?php
 $id = $_GET['id'] ?? '1';
-// Ahora puedes usar $tipo para personalizar el contenido
+
 ?>
 <style>
     .contenedor-usuarios {
@@ -51,14 +51,16 @@ $id = $_GET['id'] ?? '1';
         background-color: #e64a19;
     }
 
-    .titulo-seccion {
-        text-align: center;
-        color: #7b1fa2;
-        margin-top: 25px;
-        font-size: 1.8em;
-    }
-</style>
 
+</style>
+<script>
+	function mostrarExamenes(n) {
+	    fetch('HubExamenes.php').then(response => response.text())
+            .then(html => {
+                document.getElementById('contenido-dinamico').innerHTML = html;
+            });
+    }
+</script>
 <h2 class="titulo-seccion">➕ Selecciona el tipo de material que quieres revisar ➕</h2>
 
 <div class="contenedor-usuarios">

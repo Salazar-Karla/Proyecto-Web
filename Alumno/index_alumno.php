@@ -110,6 +110,37 @@ $_SESSION['ultima_actividad'] = time(); // Actualiza la actividad
                 document.getElementById('contenido-dinamico').innerHTML = html;
             });
             }
+            function mostrarListaExamenes(n){
+            fetch(`Consultas_Base_Datos/obtenerExamenes.php?id=${n}`)
+                .then(response=>response.json())
+                    .then(data=>{
+                        const lista= document.getElementById(`lista-Examenes`);
+                        console.log(data.cantidad);
+                        data.examenes.forEach(
+                            item=>{
+                                    const li=document.createElement('li');
+                                    const button=document.createElement('button');
+                                    button.onclick="";
+                                    button.type="button";
+                                    button.textContent=item.nombreExamen;
+                                    li.appendChild(button);
+                                    lista.appendChild(li);
+                                    console.log("item.nombreExamen");
+                                
+                            });
+                    })
+                    .catch(error=> {
+                        console.error("Error al obtener examenes",error);
+                    });
+            }
+            function mostrarExamenes(n) {
+                    fetch('HubExamenes.php').then(response => response.text())
+            .then(html => {
+                document.getElementById('contenido-dinamico').innerHTML = html;
+            });
+            mostrarListaExamenes(n);
+            }
+
         </script>
 
 </body>
