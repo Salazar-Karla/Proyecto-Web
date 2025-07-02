@@ -1,0 +1,14 @@
+<!-- Panel de bienvenida -->
+        <div class="bienvenida">
+  <h2>¡Bienvenido al Panel del Administrador!👋</h2>
+  <p>Te damos la más cordial bienvenida a la plataforma de apoyo a la educación primaria. Desde este panel podrás:</p>
+<p>🔸Administrar completamente el sistema.</p>
+  <p>🔸Generar reportes detallados.</p>
+<p>🔸Agregar y gestionar usuarios como alumnos y profesores.</p>
+<p>🔸Crear recursos académicos que estarán disponibles para los docentes.</p>
+  <p>Además, cuentas con una sección de ayuda guiada para apoyarte en cada paso, asegurando un uso eficiente y sencillo del sistema.</p>
+  <p>¡Gracias por formar parte del equipo de administración! Tu labor es clave para el buen funcionamiento de la plataforma educativa.</p>
+                <div class="imagen-final">
+    <img src="../Imagenes/admin.png" alt="Administrador" />
+  </div>
+</div>

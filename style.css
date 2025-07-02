@@ -319,33 +319,3 @@ footer {
     width: 100px;
     height: auto;
 }
-
-/* Que el body use todo el alto de la pantalla */
-html, body {
-    height: 100%;
-    margin: 0;
-    padding: 0;
-}
-
-/* Contenedor principal para forzar layout vertical */
-body {
-    display: flex;
-    flex-direction: column;
-}
-
-/* main ocupa todo el espacio disponible */
-main {
-    flex: 1;
-}
-
-/* Footer al fondo */
-footer {
-    text-align: center;
-    padding: 10px;
-    background-color: #000;
-    color: white;
-    margin-top: auto;
-}
-
-
-

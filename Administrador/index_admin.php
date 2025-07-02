@@ -1,20 +1,3 @@
-
-<?php
-session_start();
-
-$inactividad_maxima = 300; // 5 minutos (300 segundos)
-
-if (isset($_SESSION['ultima_actividad']) && (time() - $_SESSION['ultima_actividad']) > $inactividad_maxima) {
-    session_unset();
-    session_destroy();
-    header("Location: ../cerrar_sesion.php?expirada=1");
-    exit();
-}
-
-$_SESSION['ultima_actividad'] = time(); // Actualiza la actividad
-
-?>
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -78,54 +61,7 @@ $_SESSION['ultima_actividad'] = time(); // Actualiza la actividad
                 document.getElementById('contenido-dinamico').innerHTML = html;
             });
     }
-    function cargarGrupos() {
-    fetch('formularios/obtener_grupo.php')
-        .then(response => response.json())
-        .then(data => {
-            const select = document.getElementById('Grupo');
-            if (!select) return; // Evita error si no se encuentra el select
-            select.innerHTML = '<option value="">Seleccione un grupo</option>';
-            data.forEach(grupo => {
-                const option = document.createElement('option');
-                option.value = grupo.id_grupo;
-                option.textContent = "Grupo " + grupo.id_grupo;
-                select.appendChild(option);
-            });
-        })
-        .catch(err => console.error("Error al cargar grupos:", err));
-    }
-    function cargarBloques() {
-    fetch('formularios/obtener_bloque.php')
-        .then(response => response.json())
-        .then(data => {
-            const select = document.getElementById('Bloques');
-            if (!select) return; // Evita error si no se encuentra el select
-            select.innerHTML = '<option value="">Seleccione al menos un bloque</option>';
-            data.forEach(bloque => {
-                const option = document.createElement('option');
-                option.value = bloque.id_bloque;
-                option.textContent = bloque.nombre_bloque;
-                select.appendChild(option);
-            });
-        })
-        .catch(err => console.error("Error al cargar bloques:", err));
-    }
-    function cargarProfesores() {
-    fetch('formularios/obtener_profesores.php')
-        .then(response => response.json())
-        .then(data => {
-            const select = document.getElementById('Profesor');
-            if (!select) return; // Evita error si no se encuentra el select
-            select.innerHTML = '<option value="">Seleccione un profesor</option>';
-            data.forEach(profesor => {
-                const option = document.createElement('option');
-                option.value = profesor.id_profesor;
-                option.textContent = profesor.nombre+" "+profesor.ap_Pat+" "+profesor.ap_Mat;
-                select.appendChild(option);
-            });
-        })
-        .catch(err => console.error("Error al cargar grupos:", err));
-    }
+
     function mostrarAgregarUsuario() {
         fetch('agregar_usuario.php')
             .then(response => response.text())
@@ -140,95 +76,21 @@ $_SESSION['ultima_actividad'] = time(); // Actualiza la actividad
             .then(html => {
                 document.getElementById('contenido-dinamico').innerHTML = html;
             });
-        cargarGrupos();
     }
-function mostrarAgregarAlumno() {
-    fetch('formularios/agregar_alumno.php')
-        .then(response => response.text())
-        .then(html => {
-            document.getElementById('contenido-dinamico').innerHTML = html;
-            cargarGrupos(); // Cargar los grupos al select
-
-            // 💡 Aquí mismo registramos el evento del formulario
-            const form = document.getElementById('formAlumno');
-            form.addEventListener('submit', function (event) {
-                event.preventDefault();
-
-                const formData = new FormData(form);
-
-                fetch('formularios/insertar_alumno.php', {
-                    method: 'POST',
-                    body: formData
-                })
-                .then(res => res.json())
-                .then(data => {
-                    if (data.success) {
-                        alert("Alumno registrado exitosamente");
-                        form.reset();
-                    } else {
-                        alert("Error: " + data.message);
-                    }
-                })
-                .catch(err => console.error("Error en el registro:", err));
-            });
-        });
-}
 
     function mostrarAgregarProfesor() {
         fetch('formularios/agregar_profesor.php')
             .then(response => response.text())
             .then(html => {
                 document.getElementById('contenido-dinamico').innerHTML = html;
-                const form = document.getElementById('formAlumno');
-                form.addEventListener('submit', function (event) {
-                    event.preventDefault();
-
-                    const formData = new FormData(form);
-
-                    fetch('formularios/insertar_profesor.php', {
-                        method: 'POST',
-                        body: formData
-                    })
-                    .then(res => res.json())
-                    .then(data => {
-                        if (data.success) {
-                            alert("Profesor registrado exitosamente");
-                            form.reset();
-                        } else {
-                            alert("Error: " + data.message);
-                        }
-                    })
-                    .catch(err => console.error("Error en el registro:", err));
-                });
             });
     }
 
     function mostrarAgregarAdministrador() {
-        fetch('formularios/agregar_administrador.php')
+        fetch('formularios/agregar_admin.php')
             .then(response => response.text())
             .then(html => {
                 document.getElementById('contenido-dinamico').innerHTML = html;
-                const form = document.getElementById('formAlumno');
-                form.addEventListener('submit', function (event) {
-                    event.preventDefault();
-
-                    const formData = new FormData(form);
-
-                    fetch('formularios/insertar_administrador.php', {
-                        method: 'POST',
-                        body: formData
-                    })
-                    .then(res => res.json())
-                    .then(data => {
-                        if (data.success) {
-                            alert("Administrador registrado exitosamente");
-                            form.reset();
-                        } else {
-                            alert("Error: " + data.message);
-                        }
-                    })
-                    .catch(err => console.error("Error en el registro:", err));
-                });
             });
     }
      function mostrarAgregarGrupo() {
@@ -236,30 +98,6 @@ function mostrarAgregarAlumno() {
             .then(response => response.text())
             .then(html => {
                 document.getElementById('contenido-dinamico').innerHTML = html;
-                cargarBloques(); // Cargar los grupos al select
-                cargarProfesores(); // Cargar los grupos al select
-                // 💡 Aquí mismo registramos el evento del formulario
-                const form = document.getElementById('formAlumno');
-                form.addEventListener('submit', function (event) {
-                    event.preventDefault();
-
-                    const formData = new FormData(form);
-
-                    fetch('formularios/insertar_grupo_bloque.php', {
-                        method: 'POST',
-                        body: formData
-                    })
-                    .then(res => res.json())
-                    .then(data => {
-                        if (data.success) {
-                            alert("Grupo registrado exitosamente");
-                            form.reset();
-                        } else {
-                            alert("Error: " + data.message);
-                        }
-                    })
-                    .catch(err => console.error("Error en el registro:", err));
-                });
             });
     }
 
