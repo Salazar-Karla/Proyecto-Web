@@ -83,7 +83,7 @@ $id = $_GET['id'] ?? '1';
     <div class="usuario-card">
         <h3>Practicas</h3>
         <img src="../Imagenes/Examen.png" alt="Practicas">
-        <button onclick="mostrarPracticas(<?= htmlspecialchars($id) ?>)">Ponte a prueba</button>
+        <button onclick="mostrarPracticas()">Ponte a prueba</button>
     </div>
     <div class="usuario-card">
         <h3>Consultar material</h3>

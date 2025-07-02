@@ -217,6 +217,23 @@ $_SESSION['ultima_actividad'] = time(); // Actualiza la actividad
                 boton.textContent = "Enviar respuestas";
                 formulario.appendChild(boton);
             }
+            function mostrarFormulario(cadena) {
+                fetch(`Formulario/${cadena}/index.html`)
+                    .then(response => response.text())
+                    .then(html => {
+                        document.getElementById('contenido-dinamico').innerHTML = html;
+                    })
+                    .catch(error => console.error('Error al cargar el formulario:', error));
+            }
+            function mostrarPracticas() {
+                fetch(`HubPracticas.php`)
+                    .then(response => response.text())
+                    .then(html => {
+                        document.getElementById('contenido-dinamico').innerHTML = html;
+                    })
+                    .catch(error => console.error('Error al cargar el formulario:', error));
+            }
+
         </script>
 
 </body>
